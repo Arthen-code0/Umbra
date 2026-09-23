@@ -903,6 +903,132 @@ button {
 }
 
 /* ==========================================================================
+   4.5 Panel "El cielo esta noche"
+   ========================================================================== */
+.panel-cielo__fecha {
+  color: var(--c-texto-suave);
+  font-size: var(--texto-sm);
+  margin-bottom: 1.5rem;
+}
+.panel-cielo__grid {
+  display: grid;
+  gap: 1.25rem;
+  grid-template-columns: 1fr;
+  margin-bottom: 1.25rem;
+}
+.panel-cielo__tarjeta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.75rem;
+}
+.panel-cielo__tarjeta h2 {
+  font-size: var(--texto-lg);
+  margin: 0;
+}
+.panel-cielo__etiqueta-tarjeta {
+  font-weight: 700;
+  margin: 0;
+}
+.panel-cielo__planetas {
+  justify-content: center;
+}
+.panel-cielo__lista-planetas {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+}
+.panel-cielo__lista-planetas li {
+  background: var(--c-superficie-alta);
+  border: 1px solid var(--c-borde);
+  border-radius: 999px;
+  padding: 0.35rem 0.9rem;
+  font-size: var(--texto-sm);
+  font-weight: 600;
+}
+.panel-cielo__eventos h2 {
+  font-size: var(--texto-lg);
+  margin-bottom: 1rem;
+}
+.panel-cielo__lista-eventos {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.panel-cielo__lista-eventos li {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-block: 0.6rem;
+  border-bottom: 1px solid var(--c-borde);
+  font-size: var(--texto-sm);
+}
+.panel-cielo__lista-eventos li:last-child {
+  border-bottom: none;
+}
+.panel-cielo__lista-eventos time {
+  color: var(--c-texto-suave);
+  white-space: nowrap;
+}
+
+.medidor {
+  position: relative;
+  width: 96px;
+  height: 96px;
+}
+.medidor svg {
+  width: 100%;
+  height: 100%;
+}
+.medidor__pista {
+  fill: none;
+  stroke: var(--c-borde);
+  stroke-width: 8;
+}
+.medidor__progreso {
+  fill: none;
+  stroke: var(--c-primario);
+  stroke-width: 8;
+  stroke-linecap: round;
+  transition: stroke-dasharray var(--duracion-hero) var(--curva-entrada);
+}
+.medidor__valor {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 0.1rem;
+  font-family: var(--tipo-display);
+}
+.medidor__valor strong {
+  font-size: 1.4rem;
+}
+.medidor__valor span {
+  font-size: var(--texto-xs);
+  color: var(--c-texto-suave);
+}
+@media (prefers-reduced-motion: reduce) {
+  .medidor__progreso {
+    transition: none;
+  }
+}
+
+@media (min-width: 720px) {
+  .panel-cielo__grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* ==========================================================================
    5. Utilidades
    ========================================================================== */
 .visualmente-oculto {

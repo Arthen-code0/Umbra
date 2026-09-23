@@ -1,0 +1,23 @@
+---
+import LayoutBase from '../layouts/LayoutBase.astro';
+import PanelCielo from '../islands/PanelCielo';
+
+const descripcion =
+  'Fase lunar, visibilidad prevista, planetas visibles y próximos eventos astronómicos desde el observatorio Umbra, en la Sierra de Gredos.';
+---
+
+<LayoutBase titulo="El cielo esta noche" descripcion={descripcion} ruta="/el-cielo-esta-noche">
+  <section class="franja franja--cabecera contenedor">
+    <p class="ojo-de-texto">Panel en directo</p>
+    <h1>El cielo esta noche sobre el Collado del Cielo</h1>
+    <p class="lectura">
+      Antes de reservar, consulta cómo está el cielo: la fase lunar condiciona mucho lo que se ve
+      (te lo explicamos en el diario), y aquí tienes también los planetas visibles y los próximos
+      eventos astronómicos destacados.
+    </p>
+  </section>
+
+  <section class="franja franja--superior-cero contenedor">
+    <PanelCielo client:load />
+  </section>
+</LayoutBase>
