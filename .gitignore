@@ -28,4 +28,5 @@ playwright-report/
 test-results/
 tests/e2e/.capturas/
 coverage/
+.vitest/
 
