@@ -1,0 +1,220 @@
+---
+import { ClientRouter } from 'astro:transitions';
+import '../styles/global.css';
+import Seo from '../components/Seo.astro';
+import SelectorTema from '../islands/SelectorTema';
+import { NAV_PRINCIPAL, SITIO } from '../lib/sitio';
+
+interface Props {
+  titulo: string;
+  descripcion: string;
+  ruta: string;
+  tipoOg?: 'website' | 'article';
+  jsonLd?: Record<string, unknown>;
+}
+
+const { titulo, descripcion, ruta, tipoOg, jsonLd } = Astro.props;
+
+const jsonLdNegocio = {
+  '@context': 'https://schema.org',
+  '@type': 'LocalBusiness',
+  '@id': `${SITIO.url}/#negocio`,
+  name: SITIO.nombreCompleto,
+  description: SITIO.descripcion,
+  url: SITIO.url,
+  telephone: SITIO.telefono,
+  email: SITIO.email,
+  priceRange: '€€',
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: SITIO.direccion.calle,
+    addressLocality: SITIO.direccion.localidad,
+    addressRegion: SITIO.direccion.region,
+    postalCode: SITIO.direccion.codigoPostal,
+    addressCountry: SITIO.direccion.pais,
+  },
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: SITIO.coordenadas.lat,
+    longitude: SITIO.coordenadas.lon,
+  },
+  sameAs: SITIO.redesSociales,
+};
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="theme-color" content="#0b0f1a" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <Seo titulo={titulo} descripcion={descripcion} ruta={ruta} tipoOg={tipoOg} jsonLd={jsonLd} />
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLdNegocio)}></script>
+    <ClientRouter />
+    <script is:inline>
+      // Aplica el tema guardado antes del primer pintado, para evitar parpadeo.
+      // Si no hay nada guardado, no se toca el atributo: manda prefers-color-scheme (CA-11.1).
+      (function () {
+        try {
+          const guardado = localStorage.getItem('umbra-tema');
+          if (guardado === 'dark' || guardado === 'light') {
+            document.documentElement.setAttribute('data-theme', guardado);
+          }
+        } catch {
+          /* almacenamiento no disponible */
+        }
+        document.documentElement.classList.add('js');
+      })();
+    </script>
+  </head>
+  <body>
+    <a href="#contenido" class="saltar-al-contenido">
+      Saltar al contenido
+    </a>
+
+    <header class="cabecera" data-cabecera>
+      <div class="contenedor cabecera__interior">
+        <a href="/" class="cabecera__marca" aria-label={`${SITIO.nombre} — inicio`}>
+          <svg viewBox="0 0 32 32" width="28" height="28" aria-hidden="true" focusable="false">
+            <circle
+              cx="16"
+              cy="16"
+              r="15"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.4"
+              opacity="0.5"
+            />
+            <circle cx="16" cy="16" r="3.2" fill="currentColor" />
+            <circle cx="24" cy="9" r="1.1" fill="currentColor" />
+            <circle cx="7" cy="21" r="1.1" fill="currentColor" />
+          </svg>
+          <span>{SITIO.nombre}</span>
+        </a>
+
+        <button
+          type="button"
+          class="cabecera__disparador-menu"
+          aria-expanded="false"
+          aria-controls="menu-principal"
+          data-menu-boton
+        >
+          <span class="visualmente-oculto">Abrir menú</span>
+          <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false">
+            <path
+              d="M3 6h18M3 12h18M3 18h18"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+            />
+          </svg>
+        </button>
+
+        <nav class="cabecera__nav" id="menu-principal" aria-label="Navegación principal" data-menu>
+          <ul>
+            {NAV_PRINCIPAL.map((item) => (
+              <li>
+                <a href={item.href} aria-current={ruta === item.href ? 'page' : undefined}>
+                  {item.etiqueta}
+                </a>
+              </li>
+            ))}
+          </ul>
+          <div class="cabecera__acciones">
+            <SelectorTema client:load />
+            <a href="/reservar" class="boton boton--primario">
+              Reservar
+            </a>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <main id="contenido">
+      <slot />
+    </main>
+
+    <footer class="pie">
+      <div class="contenedor pie__interior">
+        <div class="pie__marca">
+          <p class="pie__nombre">{SITIO.nombre}</p>
+          <p>{SITIO.eslogan}</p>
+        </div>
+        <div class="pie__columna">
+          <h2>Visítanos</h2>
+          <p>
+            {SITIO.direccion.calle}
+            <br />
+            {SITIO.direccion.localidad}, {SITIO.direccion.region}
+            <br />
+            {SITIO.altitudMetros} m de altitud
+          </p>
+        </div>
+        <div class="pie__columna">
+          <h2>Contacto</h2>
+          <p>
+            <a href={`tel:${SITIO.telefono.replace(/\s/g, '')}`}>{SITIO.telefono}</a>
+            <br />
+            <a href={`mailto:${SITIO.email}`}>{SITIO.email}</a>
+          </p>
+        </div>
+        <div class="pie__columna">
+          <h2>Explora</h2>
+          <ul class="pie__enlaces">
+            <li>
+              <a href="/experiencias">Experiencias</a>
+            </li>
+            <li>
+              <a href="/el-cielo-esta-noche">El cielo esta noche</a>
+            </li>
+            <li>
+              <a href="/diario">Diario</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="contenedor pie__inferior">
+        <p>
+          © {new Date().getFullYear()} {SITIO.nombre}. Observatorio ficticio de demostración.
+        </p>
+      </div>
+    </footer>
+
+    <script>
+      // Se reengancha en cada navegación de View Transitions (astro:page-load
+      // se dispara también en la carga inicial), para que el menú, la
+      // cabecera y el revelado por scroll sigan funcionando tras navegar.
+      document.addEventListener('astro:page-load', () => {
+        const boton = document.querySelector<HTMLButtonElement>('[data-menu-boton]');
+        const menu = document.querySelector<HTMLElement>('[data-menu]');
+        boton?.addEventListener('click', () => {
+          const abierto = boton.getAttribute('aria-expanded') === 'true';
+          boton.setAttribute('aria-expanded', String(!abierto));
+          menu?.classList.toggle('is-abierto', !abierto);
+        });
+
+        const cabecera = document.querySelector<HTMLElement>('[data-cabecera]');
+        const alScrollear = () => {
+          cabecera?.classList.toggle('is-solida', window.scrollY > 12);
+        };
+        alScrollear();
+        window.addEventListener('scroll', alScrollear, { passive: true });
+
+        const observador = new IntersectionObserver(
+          (entradas) => {
+            for (const entrada of entradas) {
+              if (entrada.isIntersecting) {
+                entrada.target.classList.add('is-visible');
+                observador.unobserve(entrada.target);
+              }
+            }
+          },
+          { threshold: 0.15 },
+        );
+        document.querySelectorAll('.reveal').forEach((el) => observador.observe(el));
+      });
+    </script>
+  </body>
+</html>

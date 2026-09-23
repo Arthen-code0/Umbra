@@ -1,0 +1,26 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Umbra — Observatorio Astronómico de Gredos">
+  <defs>
+    <linearGradient id="cielo" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0b0f1a" />
+      <stop offset="60%" stop-color="#131a2b" />
+      <stop offset="100%" stop-color="#1b2438" />
+    </linearGradient>
+    <radialGradient id="luna" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#f0b374" />
+      <stop offset="100%" stop-color="#d98a3d" />
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#cielo)" />
+  <g fill="#f1eee6">
+    <circle cx="80" cy="70" r="1.6" /><circle cx="140" cy="120" r="1.2" /><circle cx="220" cy="60" r="1.8" />
+    <circle cx="310" cy="150" r="1.3" /><circle cx="400" cy="80" r="1.5" /><circle cx="470" cy="180" r="1.1" />
+    <circle cx="60" cy="220" r="1.4" /><circle cx="180" cy="240" r="1.7" /><circle cx="260" cy="190" r="1.2" />
+    <circle cx="1000" cy="90" r="1.6" /><circle cx="1080" cy="150" r="1.2" /><circle cx="950" cy="200" r="1.8" />
+    <circle cx="1130" cy="70" r="1.3" /><circle cx="860" cy="130" r="1.5" /><circle cx="1150" cy="230" r="1.1" />
+    <circle cx="600" cy="60" r="1.5" /><circle cx="700" cy="110" r="1.2" /><circle cx="540" cy="140" r="1.4" />
+  </g>
+  <circle cx="1020" cy="130" r="52" fill="url(#luna)" opacity="0.9" />
+  <path d="M0,630 L0,430 L120,360 L230,410 L340,320 L460,400 L600,300 L760,410 L900,340 L1050,420 L1200,380 L1200,630 Z" fill="#0b0f1a" />
+  <text x="600" y="330" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="120" fill="#f1eee6" font-weight="600">Umbra</text>
+  <text x="600" y="385" text-anchor="middle" font-family="Arial, sans-serif" font-size="30" fill="#a8adc4" letter-spacing="1">Donde el cielo todavía se ve entero</text>
+</svg>

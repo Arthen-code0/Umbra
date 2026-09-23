@@ -1,0 +1,34 @@
+---
+import { SITIO } from '../lib/sitio';
+
+interface Props {
+  titulo: string;
+  descripcion: string;
+  /** Ruta relativa, p. ej. "/experiencias". */
+  ruta: string;
+  tipoOg?: 'website' | 'article';
+  /** JSON-LD adicional específico de la página (Event, Article...). LocalBusiness ya va en LayoutBase. */
+  jsonLd?: Record<string, unknown>;
+}
+
+const { titulo, descripcion, ruta, tipoOg = 'website', jsonLd } = Astro.props;
+const url = new URL(ruta, SITIO.url).toString();
+const tituloCompleto = ruta === '/' ? SITIO.nombreCompleto : `${titulo} — ${SITIO.nombre}`;
+---
+
+<title>{tituloCompleto}</title>
+<meta name="description" content={descripcion} />
+<link rel="canonical" href={url} />
+
+<meta property="og:title" content={tituloCompleto} />
+<meta property="og:description" content={descripcion} />
+<meta property="og:url" content={url} />
+<meta property="og:type" content={tipoOg} />
+<meta property="og:site_name" content={SITIO.nombre} />
+<meta property="og:image" content={new URL('/og-imagen.svg', SITIO.url).toString()} />
+<meta property="og:locale" content="es_ES" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={tituloCompleto} />
+<meta name="twitter:description" content={descripcion} />
+
+{jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)}></script>}
