@@ -766,6 +766,143 @@ button {
 }
 
 /* ==========================================================================
+   4.4 Detalle de experiencia
+   ========================================================================== */
+.detalle-experiencia__cabecera {
+  max-width: 46rem;
+}
+.detalle-experiencia__resumen-datos {
+  list-style: none;
+  margin: 1.5rem 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 2rem;
+  font-size: var(--texto-sm);
+  color: var(--c-texto-suave);
+}
+.detalle-experiencia__resumen-datos strong {
+  color: var(--c-texto);
+}
+
+.detalle-experiencia__galeria {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin: 2.5rem 0;
+}
+.detalle-experiencia__galeria figure {
+  margin: 0;
+  border-radius: var(--radio);
+  overflow: hidden;
+  background: var(--c-superficie-alta);
+}
+.detalle-experiencia__galeria .ilustracion-experiencia {
+  aspect-ratio: 4 / 3;
+}
+
+.detalle-experiencia__cuerpo {
+  display: grid;
+  gap: 2.5rem;
+  grid-template-columns: 1fr;
+  align-items: start;
+}
+.detalle-experiencia__principal {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+.detalle-experiencia__ficha {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  position: sticky;
+  top: 6rem;
+}
+.detalle-experiencia__ficha h2 {
+  font-size: var(--texto-lg);
+  margin-top: 1.25rem;
+}
+.detalle-experiencia__incluye {
+  list-style: none;
+  margin: 0 0 0.5rem;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  font-size: var(--texto-sm);
+}
+.detalle-experiencia__incluye li {
+  padding-left: 1.4rem;
+  position: relative;
+}
+.detalle-experiencia__incluye li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.5em;
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--c-primario);
+}
+.detalle-experiencia__cta {
+  margin-top: 1.5rem;
+  width: 100%;
+}
+
+.faq {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.faq__item {
+  border: 1px solid var(--c-borde);
+  border-radius: var(--radio-sm);
+  padding: 1rem 1.25rem;
+  background: var(--c-superficie);
+}
+.faq__item summary {
+  cursor: pointer;
+  font-weight: 700;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.faq__item summary::-webkit-details-marker {
+  display: none;
+}
+.faq__item summary::after {
+  content: '+';
+  font-size: 1.4rem;
+  color: var(--c-primario-claro);
+  flex-shrink: 0;
+  transition: transform var(--duracion-micro) var(--curva-entrada);
+}
+.faq__item[open] summary::after {
+  transform: rotate(45deg);
+}
+.faq__item p {
+  margin-top: 0.75rem;
+  margin-bottom: 0;
+  color: var(--c-texto-suave);
+}
+
+@media (min-width: 640px) {
+  .detalle-experiencia__galeria {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (min-width: 900px) {
+  .detalle-experiencia__cuerpo {
+    grid-template-columns: 1.6fr 1fr;
+  }
+}
+
+/* ==========================================================================
    5. Utilidades
    ========================================================================== */
 .visualmente-oculto {

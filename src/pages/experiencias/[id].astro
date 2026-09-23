@@ -1,0 +1,150 @@
+---
+import LayoutBase from '../../layouts/LayoutBase.astro';
+import IlustracionExperiencia from '../../components/IlustracionExperiencia';
+import { EXPERIENCIAS } from '../../data/experiencias';
+import { SITIO } from '../../lib/sitio';
+
+export function getStaticPaths() {
+  return EXPERIENCIAS.map((experiencia) => ({
+    params: { id: experiencia.id },
+    props: { experiencia },
+  }));
+}
+
+const { experiencia } = Astro.props;
+
+const ETIQUETAS_TIPO: Record<typeof experiencia.tipo, string> = {
+  observacion: 'Observación',
+  astrofotografia: 'Astrofotografía',
+  familiar: 'Familiar',
+};
+
+const jsonLdEvento = {
+  '@context': 'https://schema.org',
+  '@type': 'Event',
+  name: experiencia.nombre,
+  description: experiencia.resumen,
+  eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+  eventStatus: 'https://schema.org/EventScheduled',
+  location: {
+    '@type': 'Place',
+    name: SITIO.nombreCompleto,
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: SITIO.direccion.calle,
+      addressLocality: SITIO.direccion.localidad,
+      addressRegion: SITIO.direccion.region,
+      postalCode: SITIO.direccion.codigoPostal,
+      addressCountry: SITIO.direccion.pais,
+    },
+  },
+  offers: {
+    '@type': 'Offer',
+    price: experiencia.precio,
+    priceCurrency: 'EUR',
+    availability: 'https://schema.org/InStock',
+    url: `${SITIO.url}/reservar?experiencia=${experiencia.id}`,
+  },
+  organizer: {
+    '@type': 'Organization',
+    name: SITIO.nombreCompleto,
+    url: SITIO.url,
+  },
+};
+---
+
+<LayoutBase
+  titulo={experiencia.nombre}
+  descripcion={experiencia.resumen}
+  ruta={`/experiencias/${experiencia.id}`}
+  tipoOg="website"
+  jsonLd={jsonLdEvento}
+>
+  <article class="franja contenedor detalle-experiencia">
+    <header class="detalle-experiencia__cabecera">
+      <p class="ojo-de-texto">{ETIQUETAS_TIPO[experiencia.tipo]}</p>
+      <h1>{experiencia.nombre}</h1>
+      <p class="lectura">{experiencia.resumen}</p>
+      <ul class="detalle-experiencia__resumen-datos">
+        <li>
+          <strong>{experiencia.duracionHoras}</strong> horas
+        </li>
+        <li>
+          <strong>{experiencia.precio} €</strong> por persona
+        </li>
+        <li>
+          {experiencia.aptaNinos
+            ? `Apta para niños desde ${experiencia.edadMinima} años`
+            : `Recomendada a partir de ${experiencia.edadMinima} años`}
+        </li>
+        <li>
+          Hasta <strong>{experiencia.aforoMaximo}</strong> personas por sesión
+        </li>
+      </ul>
+      <a class="boton boton--primario" href={`/reservar?experiencia=${experiencia.id}`}>
+        Reservar esta experiencia
+      </a>
+    </header>
+
+    <div
+      class="detalle-experiencia__galeria"
+      role="group"
+      aria-label="Ilustraciones de la experiencia"
+    >
+      {experiencia.galeria.map((item, indice) => (
+        <figure>
+          <IlustracionExperiencia
+            tipo={experiencia.tipo}
+            semilla={indice + 3}
+            titulo={item.descripcion}
+          />
+          <figcaption class="visualmente-oculto">{item.descripcion}</figcaption>
+        </figure>
+      ))}
+    </div>
+
+    <div class="detalle-experiencia__cuerpo">
+      <div class="detalle-experiencia__principal">
+        <section aria-labelledby="descripcion-titulo">
+          <h2 id="descripcion-titulo">La experiencia</h2>
+          <p class="lectura">{experiencia.descripcion}</p>
+        </section>
+
+        <section aria-labelledby="faq-titulo">
+          <h2 id="faq-titulo">Preguntas frecuentes</h2>
+          <div class="faq">
+            {experiencia.preguntasFrecuentes.map((item) => (
+              <details class="faq__item">
+                <summary>{item.pregunta}</summary>
+                <p>{item.respuesta}</p>
+              </details>
+            ))}
+          </div>
+        </section>
+      </div>
+
+      <aside class="tarjeta detalle-experiencia__ficha" aria-labelledby="ficha-titulo">
+        <h2 id="ficha-titulo">Qué incluye</h2>
+        <ul class="detalle-experiencia__incluye">
+          {experiencia.incluye.map((item) => (
+            <li>{item}</li>
+          ))}
+        </ul>
+
+        <h2>Horarios</h2>
+        <ul class="detalle-experiencia__incluye">
+          {experiencia.horarios.map((horario) => (
+            <li>{horario}</li>
+          ))}
+        </ul>
+
+        <a
+          class="boton boton--primario detalle-experiencia__cta"
+          href={`/reservar?experiencia=${experiencia.id}`}
+        >
+          Reservar esta experiencia
+        </a>
+      </aside>
+    </div>
+  </article>
+</LayoutBase>
