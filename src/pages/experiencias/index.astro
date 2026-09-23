@@ -1,0 +1,23 @@
+---
+import LayoutBase from '../../layouts/LayoutBase.astro';
+import CatalogoExperiencias from '../../islands/CatalogoExperiencias';
+
+const descripcion =
+  'Descubre las experiencias de Umbra: observación de estrellas, talleres de astrofotografía y noches familiares en la Sierra de Gredos. Filtra por tipo, duración y precio.';
+---
+
+<LayoutBase titulo="Experiencias" descripcion={descripcion} ruta="/experiencias">
+  <section class="franja franja--cabecera contenedor">
+    <p class="ojo-de-texto">Catálogo</p>
+    <h1>Elige tu noche bajo el cielo del Collado del Cielo</h1>
+    <p class="lectura">
+      Seis experiencias distintas según lo que busques: una primera toma de contacto en familia, un
+      taller técnico de astrofotografía o una escapada tranquila en pareja. Todas parten del mismo
+      punto de encuentro, a 1.850 m de altitud.
+    </p>
+  </section>
+
+  <section class="franja franja--superior-cero contenedor">
+    <CatalogoExperiencias client:load />
+  </section>
+</LayoutBase>
