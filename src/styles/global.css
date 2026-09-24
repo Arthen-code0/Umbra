@@ -968,9 +968,11 @@ button {
   margin: 0;
 }
 .panel-cielo__planetas {
-  justify-content: center;
+  justify-content: flex-start;
 }
 .panel-cielo__lista-planetas {
+  flex: 1;
+  align-content: center;
   list-style: none;
   margin: 0;
   padding: 0;
@@ -1040,9 +1042,9 @@ button {
   position: absolute;
   inset: 0;
   display: flex;
-  align-items: baseline;
+  align-items: center;
   justify-content: center;
-  gap: 0.1rem;
+  gap: 0.15rem;
   font-family: var(--tipo-display);
 }
 .medidor__valor strong {
