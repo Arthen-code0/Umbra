@@ -13,8 +13,15 @@ export default function ProveedorConsultas({ children }: { children: ReactNode }
       new QueryClient({
         defaultOptions: {
           queries: {
-            retry: 1,
+            // Sin reintentos automáticos: cada endpoint simulado ya resuelve
+            // en 300-900 ms, y los estados de error de la interfaz ofrecen
+            // su propio botón "Reintentar" (CA-08.3, CA-05.6). Reintentar en
+            // segundo plano no aporta aquí y solo retrasa ver el error.
+            retry: false,
             staleTime: 30_000,
+            // La API simulada nunca usa fetch real (solo latencia con
+            // setTimeout): no depende de la conectividad real del navegador.
+            networkMode: 'always',
           },
         },
       }),

@@ -1,0 +1,22 @@
+---
+import LayoutBase from '../layouts/LayoutBase.astro';
+import AsistenteReserva from '../islands/AsistenteReserva';
+
+const descripcion =
+  'Reserva tu experiencia en Umbra en cuatro pasos: elige la experiencia, la fecha y las plazas, tus datos y confirma. Sin pago online: se abona in situ o por transferencia.';
+---
+
+<LayoutBase titulo="Reservar" descripcion={descripcion} ruta="/reservar">
+  <section class="franja contenedor franja--estrecha">
+    <p class="ojo-de-texto">Reserva</p>
+    <h1>Reserva tu noche en Umbra</h1>
+    <noscript>
+      <p class="tarjeta">
+        La reserva guiada en cuatro pasos necesita JavaScript en este prototipo. Escríbenos a
+        <a href="mailto:reservas@umbra-observatorio.example">reservas@umbra-observatorio.example</a>
+        indicando la experiencia, la fecha y el número de plazas, y te confirmamos por email.
+      </p>
+    </noscript>
+    <AsistenteReserva client:only="react" />
+  </section>
+</LayoutBase>

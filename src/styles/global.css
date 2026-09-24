@@ -1029,6 +1029,165 @@ button {
 }
 
 /* ==========================================================================
+   4.6 Asistente de reserva
+   ========================================================================== */
+.franja--estrecha {
+  max-width: 46rem;
+}
+
+.indicador-pasos {
+  list-style: none;
+  margin: 0 0 2.5rem;
+  padding: 0;
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+.indicador-pasos__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  flex: 1;
+  text-align: center;
+  font-size: var(--texto-xs);
+  color: var(--c-texto-suave);
+}
+.indicador-pasos__numero {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  border: 2px solid var(--c-borde-interactivo);
+  font-weight: 700;
+  transition:
+    background-color var(--duracion-micro) var(--curva-entrada),
+    border-color var(--duracion-micro) var(--curva-entrada),
+    color var(--duracion-micro) var(--curva-entrada);
+}
+.indicador-pasos__item--actual .indicador-pasos__numero {
+  border-color: var(--c-primario);
+  background-color: var(--c-primario);
+  color: var(--c-texto-sobre-primario);
+}
+.indicador-pasos__item--actual .indicador-pasos__etiqueta {
+  color: var(--c-texto);
+  font-weight: 700;
+}
+.indicador-pasos__item--completado .indicador-pasos__numero {
+  border-color: var(--c-exito);
+  color: var(--c-exito);
+}
+
+.paso-reserva h2 {
+  font-size: var(--h4);
+  margin-bottom: 1.25rem;
+}
+.paso-reserva__subtitulo {
+  color: var(--c-texto-suave);
+  margin-top: -0.75rem;
+}
+.paso-reserva .campo {
+  margin-bottom: 1.25rem;
+}
+.paso-reserva__acciones {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.selector-experiencias {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+.selector-experiencias__opcion {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  cursor: pointer;
+  transition: border-color var(--duracion-micro) var(--curva-entrada);
+}
+.selector-experiencias__opcion input {
+  width: 20px;
+  height: 20px;
+  accent-color: var(--c-primario);
+  flex-shrink: 0;
+}
+.selector-experiencias__opcion.is-seleccionada {
+  border-color: var(--c-primario);
+}
+.selector-experiencias__nombre {
+  font-weight: 700;
+  flex: 1;
+}
+.selector-experiencias__meta {
+  color: var(--c-texto-suave);
+  font-size: var(--texto-sm);
+  white-space: nowrap;
+}
+
+.resumen-reserva {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.75rem 1.5rem;
+  margin: 0 0 1.5rem;
+  padding: 1.25rem;
+  border: 1px solid var(--c-borde);
+  border-radius: var(--radio);
+  background: var(--c-superficie);
+}
+.resumen-reserva div {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  border-bottom: 1px solid var(--c-borde);
+  padding-bottom: 0.6rem;
+}
+.resumen-reserva div:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+.resumen-reserva dt {
+  color: var(--c-texto-suave);
+}
+.resumen-reserva dd {
+  margin: 0;
+  font-weight: 600;
+  text-align: right;
+}
+.resumen-reserva__nota {
+  font-size: var(--texto-sm);
+  color: var(--c-texto-suave);
+  margin-bottom: 1.5rem;
+}
+
+.confirmacion-reserva {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.6rem;
+  padding: 3rem 2rem;
+}
+.confirmacion-reserva h2 {
+  margin-top: 0.5rem;
+}
+.confirmacion-reserva .boton {
+  margin-top: 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .resumen-reserva {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ==========================================================================
    5. Utilidades
    ========================================================================== */
 .visualmente-oculto {
