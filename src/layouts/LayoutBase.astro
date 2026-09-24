@@ -11,9 +11,10 @@ interface Props {
   ruta: string;
   tipoOg?: 'website' | 'article';
   jsonLd?: Record<string, unknown>;
+  claseCuerpo?: string;
 }
 
-const { titulo, descripcion, ruta, tipoOg, jsonLd } = Astro.props;
+const { titulo, descripcion, ruta, tipoOg, jsonLd, claseCuerpo } = Astro.props;
 
 const jsonLdNegocio = {
   '@context': 'https://schema.org',
@@ -69,7 +70,7 @@ const jsonLdNegocio = {
       })();
     </script>
   </head>
-  <body>
+  <body class={claseCuerpo}>
     <a href="#contenido" class="saltar-al-contenido">
       Saltar al contenido
     </a>

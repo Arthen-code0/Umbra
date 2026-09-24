@@ -1,17 +1,158 @@
 ---
 import LayoutBase from '../layouts/LayoutBase.astro';
+import HeroEscenaEstatica from '../components/HeroEscenaEstatica.astro';
+import HeroEscena3D from '../islands/HeroEscena3D';
+import TarjetaExperiencia from '../components/TarjetaExperiencia';
+import { buscarExperienciaPorId } from '../data/experiencias';
 import { SITIO } from '../lib/sitio';
+
+const destacadas = [
+  'noche-de-estrellas-en-familia',
+  'astrofotografia-para-principiantes',
+  'escapada-nocturna-en-pareja',
+]
+  .map(buscarExperienciaPorId)
+  .filter((experiencia) => experiencia !== undefined);
+
+const fases = [
+  {
+    hora: '19:40 · Atardecer',
+    titulo: 'La luz se marcha despacio',
+    texto:
+      'Llegáis al Collado del Cielo con el sol rozando la cresta. Hace fresco, el guía reparte mantas y todavía se ve el valle entero, anaranjado, sin una sola farola.',
+  },
+  {
+    hora: '20:30 · Anochecer',
+    titulo: 'Aparecen los primeros planetas',
+    texto:
+      'Venus y Júpiter se dejan ver antes que ninguna estrella. Es el momento de dejar los móviles en el bolsillo: los ojos tardan veinte minutos en acostumbrarse a la oscuridad.',
+  },
+  {
+    hora: '21:30 · Noche cerrada',
+    titulo: 'El cielo se llena',
+    texto:
+      'Sin luna y sin ciudades cerca, se cuentan más de tres mil estrellas a simple vista. La Vía Láctea deja de ser una foto y se convierte en una nube que cruza el cielo.',
+  },
+  {
+    hora: '23:00 · Cielo estrellado',
+    titulo: 'Ahora sí, el telescopio',
+    texto:
+      'Con la vista ya adaptada, el telescopio muestra los anillos de Saturno y cúmulos que nadie te había enseñado. Esta es la noche que venimos a buscar.',
+  },
+];
+
+const cifras = [
+  { valor: '1.850 m', etiqueta: 'de altitud, por encima de la bruma del valle' },
+  { valor: 'Bortle 2', etiqueta: 'uno de los cielos más oscuros de la península' },
+  { valor: '+3.000', etiqueta: 'estrellas visibles a simple vista' },
+  { valor: '4', etiqueta: 'telescopios y un astrofotógrafo residente' },
+];
 ---
 
-<LayoutBase titulo="Inicio" descripcion={SITIO.descripcion} ruta="/">
-  <section class="franja contenedor">
-    <h1>{SITIO.eslogan}</h1>
-    <p class="lectura">
-      Esta página se completa en las tareas T-13 y T-14 (hero 3D y scroll narrativo). Por ahora
-      demuestra que el sistema de diseño, el layout y el selector de tema funcionan.
+<LayoutBase titulo="Inicio" descripcion={SITIO.descripcion} ruta="/" claseCuerpo="pagina-inicio">
+  <section class="hero" aria-labelledby="hero-titulo">
+    <HeroEscenaEstatica />
+    <HeroEscena3D client:load />
+    <div class="contenedor hero__contenido">
+      <p class="ojo-de-texto">Observatorio astronómico · Sierra de Gredos</p>
+      <h1 id="hero-titulo">{SITIO.eslogan}</h1>
+      <p class="hero__lead">
+        A 1.850 metros y a más de cien kilómetros de cualquier gran ciudad, Umbra te enseña el cielo
+        que tus abuelos daban por hecho: noches guiadas, talleres de astrofotografía y sesiones para
+        familias.
+      </p>
+      <div class="hero__acciones">
+        <a class="boton boton--primario" href="/reservar">
+          Reservar una noche
+        </a>
+        <a class="boton boton--secundario boton--sobre-oscuro" href="/experiencias">
+          Ver experiencias
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="narrativa" data-narrativa aria-labelledby="narrativa-titulo">
+    <h2 id="narrativa-titulo" class="visualmente-oculto">
+      Una noche en Umbra, hora a hora
+    </h2>
+    <div class="narrativa__escenario">
+      <div class="narrativa__fondos" aria-hidden="true">
+        {fases.map((_, indice) => (
+          <div class={`narrativa__fondo narrativa__fondo--${indice + 1}`} />
+        ))}
+      </div>
+      <ol class="narrativa__fases">
+        {fases.map((fase, indice) => (
+          <li class={`narrativa__fase narrativa__fase--${indice + 1}`} data-fase>
+            <div class="contenedor narrativa__texto">
+              <p class="ojo-de-texto">{fase.hora}</p>
+              <h3>{fase.titulo}</h3>
+              <p>{fase.texto}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+      <div class="narrativa__progreso" aria-hidden="true">
+        <span></span>
+      </div>
+    </div>
+  </section>
+
+  <section class="franja contenedor" aria-labelledby="destacadas-titulo">
+    <p class="ojo-de-texto">Para empezar</p>
+    <h2 id="destacadas-titulo">Tres formas de pasar la noche</h2>
+    <div class="catalogo__grid inicio__destacadas">
+      {destacadas.map((experiencia, indice) => (
+        <TarjetaExperiencia experiencia={experiencia} indice={indice} />
+      ))}
+    </div>
+    <p class="inicio__ver-todas">
+      <a href="/experiencias">Ver las seis experiencias →</a>
     </p>
-    <a class="boton boton--primario" href="/experiencias">
-      Ver experiencias
+  </section>
+
+  <section class="franja contenedor" aria-labelledby="cifras-titulo">
+    <h2 id="cifras-titulo" class="visualmente-oculto">
+      Umbra en cifras
+    </h2>
+    <dl class="cifras">
+      {cifras.map((cifra) => (
+        <div>
+          <dt>{cifra.valor}</dt>
+          <dd>{cifra.etiqueta}</dd>
+        </div>
+      ))}
+    </dl>
+  </section>
+
+  <section class="franja contenedor inicio__cierre">
+    <blockquote>
+      <p>
+        «Mi hijo de siete años se quedó callado un minuto entero mirando la Vía Láctea. Nunca lo
+        había visto callado un minuto entero.»
+      </p>
+      <footer>— Lucía, de Madrid, tras la Noche de estrellas en familia</footer>
+    </blockquote>
+    <a class="boton boton--primario" href="/reservar">
+      Reservar mi noche
     </a>
   </section>
 </LayoutBase>
+
+<script>
+  import { iniciarNarrativa } from '../lib/narrativa';
+
+  let limpiar: (() => void) | undefined;
+
+  document.addEventListener('astro:page-load', async () => {
+    if (!document.querySelector('[data-narrativa]')) return;
+    limpiar?.();
+    limpiar = await iniciarNarrativa();
+  });
+
+  document.addEventListener('astro:before-swap', () => {
+    limpiar?.();
+    limpiar = undefined;
+  });
+</script>
