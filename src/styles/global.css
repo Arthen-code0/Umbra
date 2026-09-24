@@ -27,7 +27,8 @@
   --c-exito: oklch(0.72 0.11 155);
   --c-aviso: oklch(0.8 0.13 85);
   --c-error: oklch(0.65 0.15 30);
-  --c-texto-sobre-primario: var(--c-primario-oscuro);
+  --c-texto-sobre-primario: oklch(0.2 0.03 262);
+  --c-enlace: var(--c-primario-claro);
 
   /* Fases del scroll narrativo de Inicio (T-14) */
   --c-fase-fondo: var(--c-fondo);
@@ -75,11 +76,13 @@
     --c-aviso: oklch(0.48 0.11 75);
     --c-error: oklch(0.45 0.15 25);
     --c-texto-sobre-primario: oklch(1 0 0);
+    --c-enlace: var(--c-primario-oscuro);
   }
 }
 
 [data-theme='dark'] {
   color-scheme: dark;
+  --c-enlace: var(--c-primario-claro);
   --c-fondo: oklch(0.16 0.035 262);
   --c-superficie: oklch(0.21 0.04 262);
   --c-superficie-alta: oklch(0.26 0.045 262);
@@ -94,11 +97,12 @@
   --c-exito: oklch(0.72 0.11 155);
   --c-aviso: oklch(0.8 0.13 85);
   --c-error: oklch(0.65 0.15 30);
-  --c-texto-sobre-primario: oklch(0.55 0.13 50);
+  --c-texto-sobre-primario: oklch(0.2 0.03 262);
 }
 
 [data-theme='light'] {
   color-scheme: light;
+  --c-enlace: var(--c-primario-oscuro);
   --c-fondo: oklch(0.97 0.012 85);
   --c-superficie: oklch(1 0 0);
   --c-superficie-alta: oklch(0.94 0.014 85);
@@ -281,7 +285,7 @@ button {
   color: var(--c-texto-sobre-primario);
 }
 .boton--primario:hover:not(:disabled) {
-  background-color: var(--c-primario-claro);
+  background-color: var(--c-enlace);
 }
 
 .boton--secundario {
@@ -291,7 +295,7 @@ button {
 }
 .boton--secundario:hover:not(:disabled) {
   border-color: var(--c-primario);
-  color: var(--c-primario-claro);
+  color: var(--c-enlace);
 }
 
 .tarjeta {
@@ -360,7 +364,7 @@ button {
 }
 .selector-tema:hover {
   background-color: var(--c-superficie-alta);
-  color: var(--c-primario-claro);
+  color: var(--c-enlace);
   transform: rotate(-12deg);
 }
 
@@ -446,7 +450,7 @@ button {
   color: var(--c-texto-sobre-primario);
 }
 .cabecera__nav a[aria-current='page'] {
-  color: var(--c-primario-claro);
+  color: var(--c-enlace);
 }
 .cabecera__nav a:hover {
   color: var(--c-texto);
@@ -520,7 +524,7 @@ button {
   color: var(--c-texto);
 }
 .pie a:hover {
-  color: var(--c-primario-claro);
+  color: var(--c-enlace);
 }
 .pie__enlaces {
   list-style: none;
@@ -551,7 +555,7 @@ button {
   letter-spacing: 0.12em;
   font-size: var(--texto-xs);
   font-weight: 700;
-  color: var(--c-primario-claro);
+  color: var(--c-enlace);
   margin-bottom: 0.5rem;
 }
 
@@ -568,7 +572,7 @@ button {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: var(--c-primario-claro);
+  color: var(--c-enlace);
   margin-bottom: 0.4rem;
 }
 
@@ -674,7 +678,7 @@ button {
   text-decoration: none;
 }
 .tarjeta-experiencia__cuerpo h3 a:hover {
-  color: var(--c-primario-claro);
+  color: var(--c-enlace);
 }
 .tarjeta-experiencia__datos {
   display: grid;
@@ -883,7 +887,7 @@ button {
 .faq__item summary::after {
   content: '+';
   font-size: 1.4rem;
-  color: var(--c-primario-claro);
+  color: var(--c-enlace);
   flex-shrink: 0;
   transition: transform var(--duracion-micro) var(--curva-entrada);
 }
@@ -1218,7 +1222,7 @@ button {
   text-decoration: none;
 }
 .tarjeta-articulo h2 a:hover {
-  color: var(--c-primario-claro);
+  color: var(--c-enlace);
 }
 .tarjeta-articulo__meta,
 .articulo__meta {
@@ -1256,7 +1260,7 @@ button {
   color: var(--c-texto);
 }
 .articulo__indice a:hover {
-  color: var(--c-primario-claro);
+  color: var(--c-enlace);
 }
 .articulo__cuerpo header {
   margin-bottom: 2rem;
@@ -1280,7 +1284,7 @@ button {
   color: var(--c-texto);
 }
 .prosa a {
-  color: var(--c-primario-claro);
+  color: var(--c-enlace);
 }
 .articulo__volver {
   margin-top: 3rem;
@@ -1337,6 +1341,7 @@ button {
   --c-borde-interactivo: oklch(0.7 0.05 265);
   --c-superficie-alta: oklch(0.3 0.045 262);
   --c-primario-claro: oklch(0.82 0.11 60);
+  --c-enlace: oklch(0.82 0.11 60);
 }
 .pagina-inicio .cabecera {
   position: fixed;
@@ -1546,7 +1551,7 @@ button {
   font-weight: 700;
 }
 .inicio__ver-todas a {
-  color: var(--c-primario-claro);
+  color: var(--c-enlace);
 }
 
 .cifras {
@@ -1560,7 +1565,7 @@ button {
   font-family: var(--tipo-display);
   font-size: var(--h2);
   font-weight: 600;
-  color: var(--c-primario-claro);
+  color: var(--c-enlace);
   line-height: 1.1;
 }
 .cifras dd {

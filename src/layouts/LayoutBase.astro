@@ -77,7 +77,12 @@ const jsonLdNegocio = {
 
     <header class="cabecera" data-cabecera>
       <div class="contenedor cabecera__interior">
-        <a href="/" class="cabecera__marca" aria-label={`${SITIO.nombre} — inicio`}>
+        <a
+          href="/"
+          class="cabecera__marca"
+          transition:name="marca"
+          aria-label={`${SITIO.nombre} — inicio`}
+        >
           <svg viewBox="0 0 32 32" width="28" height="28" aria-hidden="true" focusable="false">
             <circle
               cx="16"
@@ -184,9 +189,17 @@ const jsonLdNegocio = {
     </footer>
 
     <script>
-      // Se reengancha en cada navegación de View Transitions (astro:page-load
-      // se dispara también en la carga inicial), para que el menú, la
-      // cabecera y el revelado por scroll sigan funcionando tras navegar.
+      // Los elementos de la página se sustituyen en cada navegación de View
+      // Transitions: astro:page-load (que también se dispara en la carga
+      // inicial) los reengancha. El listener de scroll es de window y se
+      // registra una sola vez.
+      const actualizarCabecera = () => {
+        document
+          .querySelector<HTMLElement>('[data-cabecera]')
+          ?.classList.toggle('is-solida', window.scrollY > 12);
+      };
+      window.addEventListener('scroll', actualizarCabecera, { passive: true });
+
       document.addEventListener('astro:page-load', () => {
         const boton = document.querySelector<HTMLButtonElement>('[data-menu-boton]');
         const menu = document.querySelector<HTMLElement>('[data-menu]');
@@ -196,12 +209,7 @@ const jsonLdNegocio = {
           menu?.classList.toggle('is-abierto', !abierto);
         });
 
-        const cabecera = document.querySelector<HTMLElement>('[data-cabecera]');
-        const alScrollear = () => {
-          cabecera?.classList.toggle('is-solida', window.scrollY > 12);
-        };
-        alScrollear();
-        window.addEventListener('scroll', alScrollear, { passive: true });
+        actualizarCabecera();
 
         const observador = new IntersectionObserver(
           (entradas) => {
