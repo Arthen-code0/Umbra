@@ -808,7 +808,7 @@ button {
   background: var(--c-superficie-alta);
 }
 .detalle-experiencia__galeria .ilustracion-experiencia {
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 3 / 2;
 }
 
 .detalle-experiencia__cuerpo {
@@ -902,7 +902,7 @@ button {
 
 @media (min-width: 640px) {
   .detalle-experiencia__galeria {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
   }
 }
 

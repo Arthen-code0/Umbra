@@ -1,4 +1,5 @@
 import type { Experiencia } from '../lib/api/tipos';
+import { formatearHoras } from '../lib/formato';
 import IlustracionExperiencia from './IlustracionExperiencia';
 
 const ETIQUETAS_TIPO: Record<Experiencia['tipo'], string> = {
@@ -31,12 +32,7 @@ export default function TarjetaExperiencia({ experiencia, indice = 0 }: Props) {
         <dl className="tarjeta-experiencia__datos">
           <div>
             <dt>Duración</dt>
-            <dd>
-              {experiencia.duracionHoras % 1 === 0
-                ? experiencia.duracionHoras
-                : experiencia.duracionHoras.toFixed(1)}{' '}
-              h
-            </dd>
+            <dd>{formatearHoras(experiencia.duracionHoras)} h</dd>
           </div>
           <div>
             <dt>Precio</dt>

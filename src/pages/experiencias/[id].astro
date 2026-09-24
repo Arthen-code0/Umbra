@@ -2,6 +2,7 @@
 import LayoutBase from '../../layouts/LayoutBase.astro';
 import IlustracionExperiencia from '../../components/IlustracionExperiencia';
 import { EXPERIENCIAS } from '../../data/experiencias';
+import { formatearHoras } from '../../lib/formato';
 import { SITIO } from '../../lib/sitio';
 
 export function getStaticPaths() {
@@ -67,7 +68,7 @@ const jsonLdEvento = {
       <p class="lectura">{experiencia.resumen}</p>
       <ul class="detalle-experiencia__resumen-datos">
         <li>
-          <strong>{experiencia.duracionHoras}</strong> horas
+          <strong>{formatearHoras(experiencia.duracionHoras)}</strong> horas
         </li>
         <li>
           <strong>{experiencia.precio} €</strong> por persona

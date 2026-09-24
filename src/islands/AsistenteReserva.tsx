@@ -4,6 +4,7 @@ import { EXPERIENCIAS, buscarExperienciaPorId } from '../data/experiencias';
 import { obtenerDisponibilidad } from '../lib/api/experiencias';
 import { crearReserva } from '../lib/api/reservas';
 import { ErrorApi, type Reserva } from '../lib/api/tipos';
+import { formatearHoras } from '../lib/formato';
 import { formatearFechaCorta, formatearFechaLegible } from '../lib/fecha';
 import ProveedorConsultas from '../lib/ProveedorConsultas';
 import EstadoError from '../components/EstadoError';
@@ -268,7 +269,7 @@ function PasoExperiencia({ seleccionId, onSeleccionar, onContinuar }: PropsPasoE
             />
             <span className="selector-experiencias__nombre">{experiencia.nombre}</span>
             <span className="selector-experiencias__meta">
-              {experiencia.duracionHoras} h · {experiencia.precio} €/persona
+              {formatearHoras(experiencia.duracionHoras)} h · {experiencia.precio} €/persona
             </span>
           </label>
         ))}
