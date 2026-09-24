@@ -1188,6 +1188,139 @@ button {
 }
 
 /* ==========================================================================
+   4.7 Diario y artículo
+   ========================================================================== */
+.lista-articulos {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: 1fr;
+}
+.tarjeta-articulo {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.tarjeta-articulo h2 {
+  font-size: var(--h4);
+  margin: 0;
+}
+.tarjeta-articulo h2 a {
+  text-decoration: none;
+}
+.tarjeta-articulo h2 a:hover {
+  color: var(--c-primario-claro);
+}
+.tarjeta-articulo__meta,
+.articulo__meta {
+  color: var(--c-texto-suave);
+  font-size: var(--texto-sm);
+  margin-top: auto;
+}
+
+.articulo {
+  display: grid;
+  gap: 2.5rem;
+  grid-template-columns: 1fr;
+}
+.articulo__indice {
+  border-left: 3px solid var(--c-borde);
+  padding-left: 1.25rem;
+  font-size: var(--texto-sm);
+}
+.articulo__indice h2 {
+  font-family: var(--tipo-sans);
+  font-size: var(--texto-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--c-texto-suave);
+}
+.articulo__indice ol {
+  margin: 0;
+  padding-left: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.articulo__indice a {
+  text-decoration: none;
+  color: var(--c-texto);
+}
+.articulo__indice a:hover {
+  color: var(--c-primario-claro);
+}
+.articulo__cuerpo header {
+  margin-bottom: 2rem;
+}
+.articulo__resumen {
+  font-size: var(--texto-lg);
+  color: var(--c-texto-suave);
+  max-width: 65ch;
+}
+.prosa {
+  max-width: 65ch;
+  font-size: var(--texto-lg);
+  line-height: 1.7;
+}
+.prosa h2 {
+  font-size: var(--h3);
+  margin-top: 2.5rem;
+  scroll-margin-top: 6rem;
+}
+.prosa strong {
+  color: var(--c-texto);
+}
+.prosa a {
+  color: var(--c-primario-claro);
+}
+.articulo__volver {
+  margin-top: 3rem;
+}
+
+@media (min-width: 720px) {
+  .lista-articulos {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (min-width: 1000px) {
+  .articulo {
+    grid-template-columns: 15rem minmax(0, 1fr);
+  }
+  .articulo__indice {
+    position: sticky;
+    top: 6rem;
+    align-self: start;
+  }
+}
+
+/* ==========================================================================
+   4.8 Página 404
+   ========================================================================== */
+.pagina-404 {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.pagina-404__ilustracion {
+  width: min(100%, 22rem);
+  margin-bottom: 1.5rem;
+}
+.pagina-404 .lectura {
+  margin-inline: auto;
+}
+.pagina-404__acciones {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+/* ==========================================================================
    5. Utilidades
    ========================================================================== */
 .visualmente-oculto {

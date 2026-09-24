@@ -1,0 +1,70 @@
+---
+import { getCollection, render } from 'astro:content';
+import LayoutBase from '../../layouts/LayoutBase.astro';
+import { SITIO } from '../../lib/sitio';
+import { calcularTiempoLectura } from '../../lib/tiempoLectura';
+import { formatearFechaLegible } from '../../lib/fecha';
+
+export async function getStaticPaths() {
+  const articulos = await getCollection('diario');
+  return articulos.map((articulo) => ({ params: { slug: articulo.id }, props: { articulo } }));
+}
+
+const { articulo } = Astro.props;
+const { Content, headings } = await render(articulo);
+const indice = headings.filter((encabezado) => encabezado.depth === 2);
+const fechaIso = articulo.data.fechaPublicacion.toISOString().slice(0, 10);
+const minutos = calcularTiempoLectura(articulo.body ?? '');
+
+const jsonLdArticulo = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: articulo.data.titulo,
+  description: articulo.data.resumen,
+  datePublished: fechaIso,
+  author: { '@type': 'Person', name: articulo.data.autor },
+  publisher: { '@type': 'Organization', name: SITIO.nombreCompleto, url: SITIO.url },
+  mainEntityOfPage: `${SITIO.url}/diario/${articulo.id}`,
+  inLanguage: 'es',
+};
+---
+
+<LayoutBase
+  titulo={articulo.data.titulo}
+  descripcion={articulo.data.resumen}
+  ruta={`/diario/${articulo.id}`}
+  tipoOg="article"
+  jsonLd={jsonLdArticulo}
+>
+  <div class="franja contenedor articulo">
+    <aside class="articulo__indice" aria-labelledby="indice-titulo">
+      <h2 id="indice-titulo">En este artículo</h2>
+      <ol>
+        {indice.map((encabezado) => (
+          <li>
+            <a href={`#${encabezado.slug}`}>{encabezado.text}</a>
+          </li>
+        ))}
+      </ol>
+    </aside>
+
+    <article class="articulo__cuerpo">
+      <header>
+        <p class="etiqueta">{articulo.data.categoria}</p>
+        <h1>{articulo.data.titulo}</h1>
+        <p class="articulo__meta">
+          {`Por ${articulo.data.autor} · `}
+          <time datetime={fechaIso}>{formatearFechaLegible(fechaIso)}</time>
+          {` · ${minutos} min de lectura`}
+        </p>
+        <p class="articulo__resumen">{articulo.data.resumen}</p>
+      </header>
+      <div class="prosa">
+        <Content />
+      </div>
+      <p class="articulo__volver">
+        <a href="/diario">← Volver al diario</a>
+      </p>
+    </article>
+  </div>
+</LayoutBase>

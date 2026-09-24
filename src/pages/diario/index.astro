@@ -1,0 +1,46 @@
+---
+import { getCollection } from 'astro:content';
+import LayoutBase from '../../layouts/LayoutBase.astro';
+import { calcularTiempoLectura } from '../../lib/tiempoLectura';
+import { formatearFechaLegible } from '../../lib/fecha';
+
+const articulos = (await getCollection('diario')).sort(
+  (a, b) => b.data.fechaPublicacion.getTime() - a.data.fechaPublicacion.getTime(),
+);
+
+const descripcion =
+  'El diario de Umbra: guías de observación, consejos de astrofotografía y notas sobre el cielo del Collado del Cielo, en la Sierra de Gredos.';
+---
+
+<LayoutBase titulo="Diario" descripcion={descripcion} ruta="/diario">
+  <section class="franja franja--cabecera contenedor">
+    <p class="ojo-de-texto">Diario</p>
+    <h1>Notas desde el Collado del Cielo</h1>
+    <p class="lectura">
+      Guías para mirar mejor, consejos para fotografiar lo que ves y algunas explicaciones de por
+      qué este rincón de Gredos es tan oscuro.
+    </p>
+  </section>
+
+  <section class="franja franja--superior-cero contenedor">
+    <ul class="lista-articulos">
+      {articulos.map((articulo) => (
+        <li>
+          <article class="tarjeta tarjeta-articulo">
+            <p class="etiqueta">{articulo.data.categoria}</p>
+            <h2>
+              <a href={`/diario/${articulo.id}`}>{articulo.data.titulo}</a>
+            </h2>
+            <p>{articulo.data.resumen}</p>
+            <p class="tarjeta-articulo__meta">
+              <time datetime={articulo.data.fechaPublicacion.toISOString().slice(0, 10)}>
+                {formatearFechaLegible(articulo.data.fechaPublicacion.toISOString().slice(0, 10))}
+              </time>
+              · {calcularTiempoLectura(articulo.body ?? '')} min de lectura
+            </p>
+          </article>
+        </li>
+      ))}
+    </ul>
+  </section>
+</LayoutBase>
