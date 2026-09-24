@@ -17,6 +17,12 @@ const descripcion =
         indicando la experiencia, la fecha y el número de plazas, y te confirmamos por email.
       </p>
     </noscript>
-    <AsistenteReserva client:only="react" />
+    <div class="asistente-contenedor">
+      <AsistenteReserva client:only="react">
+        <p slot="fallback" class="asistente-contenedor__cargando">
+          Preparando el formulario de reserva…
+        </p>
+      </AsistenteReserva>
+    </div>
   </section>
 </LayoutBase>

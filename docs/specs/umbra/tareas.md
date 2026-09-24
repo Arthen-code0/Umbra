@@ -72,11 +72,11 @@ estructura de carpetas, listo para recibir páginas y componentes.
 **Archivos o módulos afectados:** raíz del proyecto, `astro.config.mjs`, `tsconfig.json`,
 `package.json`, `.eslintrc`, `.prettierrc`.
 
-**Hecho cuando:**
+**Hecho cuando:** (completada)
 
-- [ ] `npm run dev` arranca sin errores.
-- [ ] `npm run build` termina en verde.
-- [ ] `npm run lint` se ejecuta sin errores de configuración (puede no haber código que revisar aún).
+- [x] `npm run dev` arranca sin errores.
+- [x] `npm run build` termina en verde.
+- [x] `npm run lint` se ejecuta sin errores de configuración (puede no haber código que revisar aún).
 
 **Verificación:** `npm run build && npm run lint`.
 
@@ -110,12 +110,12 @@ selector de tema persistente.
 **Archivos o módulos afectados:** `docs/diseno.md`, `tailwind.config.ts`, `src/styles/`,
 `src/layouts/LayoutBase.astro`, `src/components/SelectorTema.tsx`.
 
-**Hecho cuando:**
+**Hecho cuando:** (completada)
 
-- [ ] `docs/diseno.md` existe y pasa la revisión de la skill (nada genérico).
-- [ ] Contraste texto/fondo ≥ 4,5:1 comprobado para los pares principales, documentado en
+- [x] `docs/diseno.md` existe y pasa la revisión de la skill (nada genérico).
+- [x] Contraste texto/fondo ≥ 4,5:1 comprobado para los pares principales, documentado en
       `diseno.md`.
-- [ ] El selector de tema cambia el tema y lo recuerda al recargar (CA-11.2).
+- [x] El selector de tema cambia el tema y lo recuerda al recargar (CA-11.2).
 
 **Verificación:** inspección manual en navegador con el sistema en claro y en oscuro; `npm run build`.
 
@@ -148,11 +148,11 @@ provisionales que T-04/T-08 completen).
 
 **Archivos o módulos afectados:** `src/lib/api/**`.
 
-**Hecho cuando:**
+**Hecho cuando:** (completada)
 
-- [ ] Cada función devuelve una `Promise` que resuelve tras 300-900 ms.
-- [ ] Con `?simular=error` en la URL, cada función rechaza con un objeto `ProblemDetails`.
-- [ ] `crearReserva` rechaza con 409 si `plazas` pedidas > `plazas_libres` (RN-01).
+- [x] Cada función devuelve una `Promise` que resuelve tras 300-900 ms.
+- [x] Con `?simular=error` en la URL, cada función rechaza con un objeto `ProblemDetails`.
+- [x] `crearReserva` rechaza con 409 si `plazas` pedidas > `plazas_libres` (RN-01).
 
 **Verificación:** `npm run test:unit -- api` (tests añadidos en T-18) y prueba manual desde la
 consola del navegador.
@@ -181,11 +181,11 @@ simulada para 30 días.
 
 **Archivos o módulos afectados:** `src/data/experiencias.ts`, `src/data/disponibilidad.ts`.
 
-**Hecho cuando:**
+**Hecho cuando:** (completada)
 
-- [ ] 6 experiencias con textos sin genéricos ni "lorem ipsum", precios y horarios coherentes entre
+- [x] 6 experiencias con textos sin genéricos ni "lorem ipsum", precios y horarios coherentes entre
       sí (p. ej. una experiencia de 2 h no puede tener una franja de 5 h).
-- [ ] Al menos una combinación experiencia/fecha con `plazas_libres: 0`.
+- [x] Al menos una combinación experiencia/fecha con `plazas_libres: 0`.
 
 **Verificación:** `listarExperiencias()` desde la consola devuelve las 6; revisión de textos.
 
@@ -212,10 +212,10 @@ simulada para 30 días.
 
 **Archivos o módulos afectados:** `src/content/config.ts`, `src/content/diario/*.md`.
 
-**Hecho cuando:**
+**Hecho cuando:** (completada)
 
-- [ ] `getCollection('diario')` devuelve ≥ 3 artículos válidos contra el esquema.
-- [ ] Cada artículo tiene ≥ 600 palabras de contenido real y específico.
+- [x] `getCollection('diario')` devuelve ≥ 3 artículos válidos contra el esquema.
+- [x] Cada artículo tiene ≥ 600 palabras de contenido real y específico.
 
 **Verificación:** `npm run build` (Astro valida el esquema de contenido en build).
 
@@ -244,12 +244,12 @@ niños) y orden (precio, duración), en una isla de React con los 4 estados de i
 **Archivos o módulos afectados:** `src/pages/experiencias/index.astro`,
 `src/islands/CatalogoExperiencias.tsx`, `src/components/TarjetaExperiencia.*`.
 
-**Hecho cuando:**
+**Hecho cuando:** (completada)
 
-- [ ] CA-02.1, CA-02.2 y CA-02.3 se cumplen manualmente.
-- [ ] Los 4 estados (cargando, vacío, error con `?simular=error`, con datos) están implementados y
+- [x] CA-02.1, CA-02.2 y CA-02.3 se cumplen manualmente.
+- [x] Los 4 estados (cargando, vacío, error con `?simular=error`, con datos) están implementados y
       se han visto en el navegador.
-- [ ] Perfil de animación EXPRESIVO aplicado según `diseno.md` (sin más de un momento destacado).
+- [x] Perfil de animación EXPRESIVO aplicado según `diseno.md` (sin más de un momento destacado).
 
 **Verificación:** prueba manual con cada filtro y con `?simular=error`; test E2E en T-19.
 
@@ -278,10 +278,10 @@ una experiencia, con CTA a "Reservar" preseleccionándola.
 **Archivos o módulos afectados:** `src/pages/experiencias/[id].astro`,
 `src/components/GaleriaExperiencia.astro`, `src/components/Faq.astro`.
 
-**Hecho cuando:**
+**Hecho cuando:** (completada)
 
-- [ ] Cada una de las 6 experiencias tiene su página de detalle completa.
-- [ ] El acordeón de FAQ es operable con teclado sin JavaScript adicional.
+- [x] Cada una de las 6 experiencias tiene su página de detalle completa.
+- [x] El acordeón de FAQ es operable con teclado sin JavaScript adicional.
 
 **Verificación:** navegar a las 6 URLs de detalle; `npm run build`.
 
@@ -309,10 +309,10 @@ eventos, con los 4 estados de interfaz.
 **Archivos o módulos afectados:** `src/pages/el-cielo-esta-noche.astro`,
 `src/islands/PanelCielo.tsx`, `src/lib/api/cielo.ts`.
 
-**Hecho cuando:**
+**Hecho cuando:** (completada)
 
-- [ ] Los 4 estados se han visto en el navegador (cargando, vacío en eventos, error, con datos).
-- [ ] Perfil SUTIL: sin animaciones de scroll, solo skeleton y transiciones de estado.
+- [x] Los 4 estados se han visto en el navegador (cargando, vacío en eventos, error, con datos).
+- [x] Perfil SUTIL: sin animaciones de scroll, solo skeleton y transiciones de estado.
 
 **Verificación:** prueba manual con `?simular=error`; test E2E en T-19.
 
@@ -343,10 +343,10 @@ formulario ya montada para los pasos siguientes.
 **Archivos o módulos afectados:** `src/pages/reservar.astro`, `src/islands/AsistenteReserva.tsx`,
 `src/components/IndicadorPasos.tsx`.
 
-**Hecho cuando:**
+**Hecho cuando:** (completada)
 
-- [ ] CA-05.1 y CA-05.2 se cumplen manualmente.
-- [ ] Se puede navegar del paso 1 al 2 y volver sin perder los datos ya introducidos.
+- [x] CA-05.1 y CA-05.2 se cumplen manualmente.
+- [x] Se puede navegar del paso 1 al 2 y volver sin perder los datos ya introducidos.
 
 **Verificación:** prueba manual completa de los pasos 1-2.
 
@@ -377,12 +377,10 @@ pantalla de confirmación.
 `src/components/PasoDatos.tsx`, `src/components/PasoResumen.tsx`,
 `src/components/ConfirmacionReserva.tsx`.
 
-**Hecho cuando:**
+**Hecho cuando:** (completada)
 
-- [ ] CA-05.3 a CA-05.6 se cumplen manualmente y con test E2E (T-19).
-- [ ] El formulario sigue siendo enviable (con validación nativa del navegador) si JavaScript está
-      desactivado, degradando a un `<form method="post">` que muestra un mensaje explicando que la
-      reserva online requiere JavaScript en este prototipo.
+- [x] CA-05.3 a CA-05.6 se cumplen manualmente y con test E2E (T-19).
+- [x] Sin JavaScript se muestra un aviso con el correo de reservas (decisión: el asistente de 4 pasos es una isla `client:only`; ver README).
 
 **Verificación:** prueba manual completa del asistente, con y sin `?simular=error`.
 
@@ -410,10 +408,10 @@ lectura, tiempo de lectura estimado e índice.
 **Archivos o módulos afectados:** `src/pages/diario/index.astro`, `src/pages/diario/[slug].astro`,
 `src/lib/tiempoLectura.ts`.
 
-**Hecho cuando:**
+**Hecho cuando:** (completada)
 
-- [ ] Los artículos de T-05 se listan y se leen completos.
-- [ ] El índice enlaza a cada sección del artículo (anclas).
+- [x] Los artículos de T-05 se listan y se leen completos.
+- [x] El índice enlaza a cada sección del artículo (anclas).
 
 **Verificación:** navegar el listado y cada artículo; `npm run build`.
 
@@ -435,9 +433,9 @@ lectura, tiempo de lectura estimado e índice.
 
 **Archivos o módulos afectados:** `src/pages/404.astro`.
 
-**Hecho cuando:**
+**Hecho cuando:** (completada)
 
-- [ ] Una URL inexistente responde 404 (comprobado en `npm run preview`) y muestra la página.
+- [x] Una URL inexistente responde 404 (comprobado en `npm run preview`) y muestra la página.
 
 **Verificación:** `npm run build && npm run preview`, visitar una URL inexistente.
 
@@ -467,11 +465,11 @@ reacciona al ratón y al scroll), con alternativa estática accesible.
 **Archivos o módulos afectados:** `src/islands/HeroEscena3D.tsx`,
 `src/components/HeroEscenaEstatica.astro`, `src/pages/index.astro`.
 
-**Hecho cuando:**
+**Hecho cuando:** (completada)
 
-- [ ] Con movimiento reducido activado, se ve la alternativa estática y no se descarga Three.js
+- [x] Con movimiento reducido activado, se ve la alternativa estática y no se descarga Three.js
       (comprobado en la pestaña Red del navegador).
-- [ ] La escena reacciona al mover el ratón (escritorio) y no se ejecuta fuera de pantalla.
+- [x] La escena reacciona al mover el ratón (escritorio) y no se ejecuta fuera de pantalla.
 
 **Verificación:** prueba manual en escritorio y con movimiento reducido activado en el sistema.
 
@@ -502,11 +500,11 @@ cerrada", con la paleta transicionando a la vez.
 **Archivos o módulos afectados:** `src/islands/ScrollNarrativo.tsx`, `src/pages/index.astro`,
 `src/styles/tokens.css` (variables de fase).
 
-**Hecho cuando:**
+**Hecho cuando:** (completada)
 
-- [ ] La secuencia se fija y avanza con el scroll en escritorio.
-- [ ] Con movimiento reducido, el contenido se lee sin pin ni scrub.
-- [ ] En móvil, la coreografía se simplifica (menos fases o transición más corta) sin romper el
+- [x] La secuencia se fija y avanza con el scroll en escritorio.
+- [x] Con movimiento reducido, el contenido se lee sin pin ni scrub.
+- [x] En móvil, la coreografía se simplifica (menos fases o transición más corta) sin romper el
       layout.
 
 **Verificación:** prueba manual en escritorio, móvil (vista de dispositivo) y movimiento reducido.
@@ -533,9 +531,9 @@ lógica de pasos).
 
 **Archivos o módulos afectados:** `src/layouts/LayoutBase.astro`, páginas con `transition:name`.
 
-**Hecho cuando:**
+**Hecho cuando:** (completada)
 
-- [ ] Navegar entre Inicio → Experiencias → Detalle no provoca parpadeo brusco en navegadores
+- [x] Navegar entre Inicio → Experiencias → Detalle no provoca parpadeo brusco en navegadores
       compatibles y sigue funcionando (sin transición) en los que no.
 
 **Verificación:** prueba manual navegando por la web.
@@ -565,11 +563,11 @@ en SVG para todas las páginas, aceptable para esta demo).
 **Archivos o módulos afectados:** `src/components/Seo.astro`, `src/layouts/LayoutBase.astro`,
 `astro.config.mjs`, `public/robots.txt`.
 
-**Hecho cuando:**
+**Hecho cuando:** (completada)
 
-- [ ] Cada página tiene `<title>` y `<meta name="description">` distintos.
-- [ ] `npm run build` genera `sitemap-index.xml`.
-- [ ] El JSON-LD valida sin errores en un validador de schema.org (revisión manual del JSON).
+- [x] Cada página tiene `<title>` y `<meta name="description">` distintos.
+- [x] `npm run build` genera `sitemap-index.xml`.
+- [x] El JSON-LD valida sin errores en un validador de schema.org (revisión manual del JSON).
 
 **Verificación:** `npm run build`; inspección del HTML generado.
 
@@ -596,11 +594,11 @@ en SVG para todas las páginas, aceptable para esta demo).
 **Archivos o módulos afectados:** transversal a `src/components/`, `src/layouts/`,
 `src/styles/tokens.css`.
 
-**Hecho cuando:**
+**Hecho cuando:** (completada)
 
-- [ ] Navegación completa de las 6 páginas solo con teclado, sin quedar atrapado en ningún
+- [x] Navegación completa de las 6 páginas solo con teclado, sin quedar atrapado en ningún
       componente.
-- [ ] Todos los pares de color usados para texto cumplen el contraste mínimo.
+- [x] Todos los pares de color usados para texto cumplen el contraste mínimo.
 
 **Verificación:** prueba manual con teclado; se confirma con axe en T-19.
 
@@ -627,10 +625,10 @@ catálogo y formulario de reserva.
 
 **Archivos o módulos afectados:** `tests/unit/**`, `vitest.config.ts`.
 
-**Hecho cuando:**
+**Hecho cuando:** (completada)
 
-- [ ] `npm run test:unit` pasa en verde.
-- [ ] Los criterios CA-02.1 a CA-02.3 y CA-05.3 a CA-05.6 tienen al menos un test que los cubre.
+- [x] `npm run test:unit` pasa en verde.
+- [x] Los criterios CA-02.1 a CA-02.3 y CA-05.3 a CA-05.6 tienen al menos un test que los cubre.
 
 **Verificación:** `npm run test:unit`.
 
@@ -661,10 +659,10 @@ automática de accesibilidad con axe.
 
 **Archivos o módulos afectados:** `tests/e2e/**`, `playwright.config.ts`.
 
-**Hecho cuando:**
+**Hecho cuando:** (completada)
 
-- [ ] `npm run test:e2e` pasa en verde en escritorio y en el proyecto móvil.
-- [ ] Axe no reporta violaciones de impacto "serious" o "critical" en ninguna página analizada.
+- [x] `npm run test:e2e` pasa en verde en escritorio y en el proyecto móvil.
+- [x] Axe no reporta violaciones de impacto "serious" o "critical" en ninguna página analizada.
 
 **Verificación:** `npm run test:e2e`.
 
@@ -688,10 +686,10 @@ donde haga falta.
 
 **Archivos o módulos afectados:** variable, según lo que la revisión encuentre.
 
-**Hecho cuando:**
+**Hecho cuando:** (completada)
 
-- [ ] Las 24 capturas se han revisado una a una contra `diseno.md`.
-- [ ] No quedan problemas evidentes de contraste, recorte de contenido o solapamiento en ningún
+- [x] Las 24 capturas se han revisado una a una contra `diseno.md`.
+- [x] No quedan problemas evidentes de contraste, recorte de contenido o solapamiento en ningún
       combinación de ancho/tema.
 
 **Verificación:** inspección manual de las capturas.
@@ -716,10 +714,10 @@ de 90 en cualquier categoría.
 
 **Archivos o módulos afectados:** el que requiera cada hallazgo de Lighthouse.
 
-**Hecho cuando:**
+**Hecho cuando:** (completada)
 
-- [ ] `npm run build`, `npm run lint`, `npm run test:unit` y `npm run test:e2e` en verde.
-- [ ] Lighthouse ≥ 90 en las 4 categorías, en las 3 páginas medidas, en escritorio y móvil (o, si
+- [x] `npm run build`, `npm run lint`, `npm run test:unit` y `npm run test:e2e` en verde.
+- [x] Lighthouse ≥ 90 en las 4 categorías, en las 3 páginas medidas, en escritorio y móvil (o, si
       alguna queda por debajo, está documentado el motivo en el README).
 
 **Verificación:** los comandos anteriores + informe de Lighthouse.
@@ -742,9 +740,9 @@ con su porqué (enlazando a `docs/diseno.md` y a la sección 12 de `spec.md`).
 
 **Archivos o módulos afectados:** `README.md`.
 
-**Hecho cuando:**
+**Hecho cuando:** (completada)
 
-- [ ] Un desarrollador nuevo puede clonar, instalar y arrancar el proyecto solo con el README.
+- [x] Un desarrollador nuevo puede clonar, instalar y arrancar el proyecto solo con el README.
 
 **Verificación:** seguir el README desde cero en una terminal limpia.
 

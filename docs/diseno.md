@@ -23,8 +23,7 @@ cliché "azul espacial con morado neón" de mil landings de astronomía genéric
 ## 2. Paleta
 
 Construida en OKLCH (con hex de respaldo) siguiendo los roles de `color-tipografia.md`. Contraste
-verificado con la fórmula WCAG de luminancia relativa (script de verificación en
-`docs/diseno-contraste.md`).
+verificado con la fórmula WCAG de luminancia relativa (comprobado además con axe en las 8 páginas, claro y oscuro).
 
 ### Modo oscuro (por defecto — el tema natural de un observatorio nocturno)
 
@@ -37,7 +36,8 @@ verificado con la fórmula WCAG de luminancia relativa (script de verificación 
 | `--color-texto-suave`       | `oklch(0.72 0.03 265)`  | `#a8adc4` | Texto secundario, metadatos              |
 | `--color-primario`          | `oklch(0.72 0.13 55)`   | `#d98a3d` | Botones y CTA (cobre/ámbar)              |
 | `--color-primario-claro`    | `oklch(0.82 0.11 60)`   | `#f0b374` | Hover, enlaces sobre fondo oscuro        |
-| `--color-primario-oscuro`   | `oklch(0.55 0.13 50)`   | `#a8631f` | Texto sobre `--color-primario-claro`     |
+| `--c-texto-sobre-primario`  | `oklch(0.2 0.03 262)`   | `#1c2236` | Texto de los botones primarios           |
+| `--color-primario-oscuro`   | `oklch(0.55 0.13 50)`   | `#a8631f` | Apoyo de la escala cobre                 |
 | `--color-acento`            | `oklch(0.74 0.08 205)`  | `#6fb8c9` | Detalles fríos (telescopio, datos)       |
 | `--color-borde`             | `oklch(0.27 0.03 262)`  | `#232c48` | Divisores decorativos                    |
 | `--color-borde-interactivo` | `oklch(0.52 0.06 265)`  | `#6b78ab` | Bordes de campos y controles             |
@@ -282,3 +282,8 @@ Listado:                        Artículo:
   perfil sutil o expresivo contenido) — regla común respetada.
 - Todo el movimiento anima `transform`/`opacity` (ver detalle en implementación); todo respeta
   `prefers-reduced-motion`.
+
+## 8. Ajustes tras la revisión con axe
+
+- Se añadió el token `--c-enlace` (texto de acento): `primario-claro` en oscuro y `primario-oscuro` en claro. El primer diseño usaba `primario-claro` también en claro y no llegaba a 4,5:1.
+- El texto de los botones primarios en oscuro pasó de `primario-oscuro` (≈2,3:1) a índigo casi negro (5,75:1), como indicaba la tabla.

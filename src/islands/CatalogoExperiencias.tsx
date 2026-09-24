@@ -214,6 +214,7 @@ function CatalogoInterno() {
         </aside>
 
         <div className="catalogo__resultados" aria-live="polite">
+          <h2 className="visualmente-oculto">Experiencias disponibles</h2>
           {consulta.isPending && (
             <div className="catalogo__grid">
               {Array.from({ length: 6 }).map((_, indice) => (

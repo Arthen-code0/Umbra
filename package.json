@@ -16,7 +16,9 @@
     "format:check": "prettier --check .",
     "test:unit": "vitest run",
     "test:unit:watch": "vitest",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "capturas": "node scripts/capturas.mjs",
+    "lighthouse": "node scripts/lighthouse.mjs"
   },
   "dependencies": {
     "@astrojs/react": "^7.0.0",
@@ -53,6 +55,7 @@
     "eslint-plugin-react-hooks": "^7.1.1",
     "globals": "^17.12.0",
     "jsdom": "^29.1.1",
+    "lighthouse": "^13.5.0",
     "prettier": "^3.9.9",
     "prettier-plugin-astro": "^1.0.1",
     "typescript": "^6.0.3",
