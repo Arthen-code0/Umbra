@@ -5,7 +5,7 @@ export default defineConfig({
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
-  reporter: 'html',
+  reporter: [['list'], ['html', { open: 'never' }]],
   use: {
     baseURL: 'http://localhost:4321',
     trace: 'on-first-retry',
@@ -18,6 +18,6 @@ export default defineConfig({
   },
   projects: [
     { name: 'Escritorio Chrome', use: { ...devices['Desktop Chrome'] } },
-    { name: 'Móvil (iPhone 13)', use: { ...devices['iPhone 13'] } },
+    { name: 'Móvil (iPhone 13)', use: { ...devices['iPhone 13'], defaultBrowserType: 'chromium' } },
   ],
 });
