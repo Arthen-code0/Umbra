@@ -1400,11 +1400,54 @@ button {
   color: #f1eee6;
   isolation: isolate;
 }
-.hero .hero-estatico,
-.hero .hero-3d {
+.hero .hero-estatico {
   position: absolute;
   inset: 0;
   z-index: -1;
+  transition: opacity var(--duracion-hero) var(--curva-entrada);
+}
+
+/* Escena 3D continua: el lienzo queda fijo (sticky) detrás del hero y de la narrativa. */
+.escena {
+  position: relative;
+}
+.escena__lienzo {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  margin-bottom: -100svh;
+  z-index: 0;
+  pointer-events: none;
+}
+.escena > .hero,
+.escena > .narrativa {
+  position: relative;
+  z-index: 1;
+}
+.escena--3d .hero {
+  background: transparent;
+}
+.escena--3d .hero .hero-estatico {
+  opacity: 0;
+}
+.escena--3d .hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(90deg, rgb(5 7 13 / 0.62), rgb(5 7 13 / 0) 68%);
+}
+.escena--3d .narrativa--animada .narrativa__fondos {
+  display: none;
+}
+.escena--3d .narrativa--animada .narrativa__texto {
+  width: min(40rem, 100% - 2.5rem);
+  margin-left: max(1.25rem, calc((100vw - var(--ancho-contenido)) / 2));
+  margin-right: auto;
+  padding: 1.5rem 1.75rem;
+  border-radius: var(--radio);
+  background: rgb(5 7 13 / 0.74);
+  backdrop-filter: blur(6px);
 }
 .hero-estatico svg {
   width: 100%;
@@ -1417,6 +1460,8 @@ button {
   opacity: 0;
 }
 .hero-3d {
+  position: absolute;
+  inset: 0;
   opacity: 0;
   transition: opacity var(--duracion-hero) var(--curva-entrada);
 }

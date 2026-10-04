@@ -81,13 +81,12 @@ tests/
   ámbar de las linternas que usan los astrónomos. Contrastes AA comprobados con la fórmula WCAG y
   con axe. Detalle en [`docs/diseno.md`](docs/diseno.md).
 - **Fraunces + Manrope** autoalojadas con Fontsource (sin peticiones a Google Fonts).
-- **Un momento estrella por página.** Inicio (perfil espectacular): hero con Three.js y scroll
-  narrativo GSAP «del atardecer a la noche», que son un único arco. Experiencias (expresivo):
-  entrada escalonada de tarjetas. Reservar, Cielo, Diario y 404 (sutil): transiciones de estado.
+- **Un momento estrella por página.** Inicio (perfil espectacular): una única escena 3D continua que va del atardecer a la noche cerrada según el scroll. El cielo es un shader (degradado, sol, estrellas y Vía Láctea), con estrellas con parpadeo, una constelación que se dibuja, Saturno con anillos, estrellas fugaces y montañas con un telescopio en 2D con paralaje; el scroll narrativo GSAP cuenta las cuatro fases sobre ella. Experiencias (expresivo): entrada escalonada de tarjetas. Reservar, Cielo, Diario y 404 (sutil): transiciones de estado.
 - **Three.js y GSAP con `import()` dinámico**, solo en Inicio y solo si procede. Con
   `prefers-reduced-motion`, poca CPU (`hardwareConcurrency ≤ 2`) o sin WebGL, el hero es un cielo
-  SVG estático y ni se descarga Three.js; en móvil o con movimiento reducido la narrativa son
-  cuatro secciones apiladas sin pin.
+  SVG estático y ni se descarga Three.js. La escena arranca tras la carga y, en móvil, en la
+  primera interacción (o a los 4 s), con 30 fps y sin antialias; con movimiento reducido o en
+  móvil la narrativa son cuatro secciones apiladas sin pin.
 - **TanStack Query para los datos** (recomendado por la skill). `retry: false`: los reintentos
   automáticos se quedaban pausados en pestañas sin foco y cada estado de error ya ofrece
   «Reintentar».

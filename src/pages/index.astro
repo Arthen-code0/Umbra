@@ -50,54 +50,58 @@ const cifras = [
 ---
 
 <LayoutBase titulo="Inicio" descripcion={SITIO.descripcion} ruta="/" claseCuerpo="pagina-inicio">
-  <section class="hero" aria-labelledby="hero-titulo">
-    <HeroEscenaEstatica />
-    <HeroEscena3D client:load />
-    <div class="contenedor hero__contenido">
-      <p class="ojo-de-texto">Observatorio astronómico · Sierra de Gredos</p>
-      <h1 id="hero-titulo">{SITIO.eslogan}</h1>
-      <p class="hero__lead">
-        A 1.850 metros y a más de cien kilómetros de cualquier gran ciudad, Umbra te enseña el cielo
-        que tus abuelos daban por hecho: noches guiadas, talleres de astrofotografía y sesiones para
-        familias.
-      </p>
-      <div class="hero__acciones">
-        <a class="boton boton--primario" href="/reservar">
-          Reservar una noche
-        </a>
-        <a class="boton boton--secundario boton--sobre-oscuro" href="/experiencias">
-          Ver experiencias
-        </a>
-      </div>
+  <div class="escena" data-escena>
+    <div class="escena__lienzo" aria-hidden="true">
+      <HeroEscena3D client:load />
     </div>
-  </section>
+    <section class="hero" aria-labelledby="hero-titulo">
+      <HeroEscenaEstatica />
+      <div class="contenedor hero__contenido">
+        <p class="ojo-de-texto">Observatorio astronómico · Sierra de Gredos</p>
+        <h1 id="hero-titulo">{SITIO.eslogan}</h1>
+        <p class="hero__lead">
+          A 1.850 metros y a más de cien kilómetros de cualquier gran ciudad, Umbra te enseña el
+          cielo que tus abuelos daban por hecho: noches guiadas, talleres de astrofotografía y
+          sesiones para familias.
+        </p>
+        <div class="hero__acciones">
+          <a class="boton boton--primario" href="/reservar">
+            Reservar una noche
+          </a>
+          <a class="boton boton--secundario boton--sobre-oscuro" href="/experiencias">
+            Ver experiencias
+          </a>
+        </div>
+      </div>
+    </section>
 
-  <section class="narrativa" data-narrativa aria-labelledby="narrativa-titulo">
-    <h2 id="narrativa-titulo" class="visualmente-oculto">
-      Una noche en Umbra, hora a hora
-    </h2>
-    <div class="narrativa__escenario">
-      <div class="narrativa__fondos" aria-hidden="true">
-        {fases.map((_, indice) => (
-          <div class={`narrativa__fondo narrativa__fondo--${indice + 1}`} />
-        ))}
+    <section class="narrativa" data-narrativa aria-labelledby="narrativa-titulo">
+      <h2 id="narrativa-titulo" class="visualmente-oculto">
+        Una noche en Umbra, hora a hora
+      </h2>
+      <div class="narrativa__escenario">
+        <div class="narrativa__fondos" aria-hidden="true">
+          {fases.map((_, indice) => (
+            <div class={`narrativa__fondo narrativa__fondo--${indice + 1}`} />
+          ))}
+        </div>
+        <ol class="narrativa__fases">
+          {fases.map((fase, indice) => (
+            <li class={`narrativa__fase narrativa__fase--${indice + 1}`} data-fase>
+              <div class="contenedor narrativa__texto">
+                <p class="ojo-de-texto">{fase.hora}</p>
+                <h3>{fase.titulo}</h3>
+                <p>{fase.texto}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+        <div class="narrativa__progreso" aria-hidden="true">
+          <span></span>
+        </div>
       </div>
-      <ol class="narrativa__fases">
-        {fases.map((fase, indice) => (
-          <li class={`narrativa__fase narrativa__fase--${indice + 1}`} data-fase>
-            <div class="contenedor narrativa__texto">
-              <p class="ojo-de-texto">{fase.hora}</p>
-              <h3>{fase.titulo}</h3>
-              <p>{fase.texto}</p>
-            </div>
-          </li>
-        ))}
-      </ol>
-      <div class="narrativa__progreso" aria-hidden="true">
-        <span></span>
-      </div>
-    </div>
-  </section>
+    </section>
+  </div>
 
   <section class="franja contenedor" aria-labelledby="destacadas-titulo">
     <p class="ojo-de-texto">Para empezar</p>
