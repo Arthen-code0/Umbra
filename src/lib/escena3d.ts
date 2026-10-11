@@ -56,7 +56,7 @@ void main(){ vDir = position; gl_Position = projectionMatrix * modelViewMatrix *
 
 const FRAGMENT_CIELO = /* glsl */ `
 varying vec3 vDir;
-uniform float uNoche; uniform float uTiempo; uniform vec3 uSol;
+uniform float uNoche; uniform float uTiempo; uniform vec3 uSol; uniform vec3 uOnda; uniform float uEdad;
 ${GLSL_RUIDO}
 void main(){
   vec3 d = normalize(vDir);
@@ -72,7 +72,12 @@ void main(){
   float vis = smoothstep(0.25, 0.8, uNoche) * smoothstep(-0.05, 0.25, d.y);
   vec3 p = d * 70.0; vec3 id = floor(p); vec3 f = fract(p) - 0.5; float hs = hash(id);
   float estrella = step(0.982, hs) * smoothstep(0.32, 0.0, length(f)) * (0.6 + 0.4 * sin(uTiempo * (1.0 + hs * 4.0) + hs * 40.0));
-  col += vec3(0.9, 0.92, 1.0) * estrella * vis;
+  // Onda del clic: un anillo de luz que se expande desde el punto pulsado y aviva las estrellas.
+  float ang = acos(clamp(dot(d, normalize(uOnda)), -1.0, 1.0));
+  float dist = (ang - uEdad * 0.9) * 7.0;
+  float anillo = exp(-dist * dist) * (1.0 - smoothstep(0.0, 2.2, uEdad));
+  col += vec3(0.9, 0.92, 1.0) * estrella * (1.0 + anillo * 5.0) * vis;
+  col += vec3(0.45, 0.6, 1.0) * anillo * (0.18 + 0.3 * k);
 
   vec3 n = normalize(vec3(0.75, 0.55, 0.32));
   float dd = dot(d, n);
@@ -261,6 +266,8 @@ function crearCielo(movil: boolean): Mesh {
       uNoche: { value: 0 },
       uTiempo: { value: 0 },
       uSol: { value: new Vector3(-0.55, 0.1, -0.83) },
+      uOnda: { value: new Vector3(0, 0, -1) },
+      uEdad: { value: 99 },
     },
   });
   return new Mesh(new SphereGeometry(100, 48, 32), material);
@@ -644,8 +651,9 @@ export function crearEscena(contenedor: HTMLElement): () => void {
     return MathUtils.clamp(-r.top / total, 0, 1);
   }
 
-  function lanzarFugaz(f: EstrellaFugaz) {
-    const local = new Vector3(MathUtils.randFloat(-18, 18), MathUtils.randFloat(5, 16), -34);
+  function lanzarFugaz(f: EstrellaFugaz, origen?: Vector3) {
+    const local =
+      origen ?? new Vector3(MathUtils.randFloat(-18, 18), MathUtils.randFloat(5, 16), -34);
     f.inicio.copy(camara.localToWorld(local));
     const dirLocal = new Vector3(MathUtils.randFloat(-1, -0.45), -0.35, 0).normalize();
     f.direccion.copy(dirLocal.transformDirection(camara.matrixWorld));
@@ -695,6 +703,8 @@ export function crearEscena(contenedor: HTMLElement): () => void {
     const sky = (cielo.material as ShaderMaterial).uniforms;
     sky.uNoche.value = noche;
     sky.uTiempo.value = t;
+    edadOnda = Math.min(edadOnda + dt, 99);
+    sky.uEdad.value = edadOnda;
     (sky.uSol.value as Vector3).y = MathUtils.lerp(0.1, -0.35, suavizar(0, 0.6, noche));
     const stars = (estrellas.material as ShaderMaterial).uniforms;
     stars.uNoche.value = noche;
@@ -781,6 +791,31 @@ export function crearEscena(contenedor: HTMLElement): () => void {
     if (idAnimacion === 0) idAnimacion = requestAnimationFrame(fotograma);
   }
 
+  // Un toque o clic en el cielo (no en enlaces ni controles) lanza una onda de luz
+  // desde ese punto y, ya de noche, una estrella fugaz que parte de él.
+  let edadOnda = 99;
+  function alPulsar(evento: MouseEvent) {
+    const objetivoClic = evento.target as Element | null;
+    if (
+      objetivoClic?.closest('a, button, input, select, textarea, label, summary, [role="button"]')
+    ) {
+      return;
+    }
+    const x = (evento.clientX / window.innerWidth) * 2 - 1;
+    const y = -(evento.clientY / window.innerHeight) * 2 + 1;
+    camara.updateMatrixWorld();
+    const direccion = new Vector3(x, y, 0.5).unproject(camara).sub(camara.position).normalize();
+    (cielo.material as ShaderMaterial).uniforms.uOnda.value.copy(direccion);
+    edadOnda = 0;
+    if (noche > 0.5) {
+      const libre = fugaces.find((f) => !f.activa);
+      if (libre) {
+        const alto = Math.tan(MathUtils.degToRad(camara.fov / 2)) * 34;
+        lanzarFugaz(libre, new Vector3(x * alto * camara.aspect, y * alto, -34));
+      }
+    }
+  }
+
   function alMoverRaton(evento: PointerEvent) {
     objetivo.x = (evento.clientX / window.innerWidth - 0.5) * 2;
     objetivo.y = (evento.clientY / window.innerHeight - 0.5) * 2;
@@ -795,6 +830,7 @@ export function crearEscena(contenedor: HTMLElement): () => void {
   observadorTamano.observe(contenedor);
   if (punteroFino) window.addEventListener('pointermove', alMoverRaton, { passive: true });
   document.addEventListener('visibilitychange', arrancar);
+  window.addEventListener('click', alPulsar);
 
   ajustarTamano();
   arrancar();
@@ -805,6 +841,7 @@ export function crearEscena(contenedor: HTMLElement): () => void {
     observadorVisibilidad.disconnect();
     observadorTamano.disconnect();
     window.removeEventListener('pointermove', alMoverRaton);
+    window.removeEventListener('click', alPulsar);
     document.removeEventListener('visibilitychange', arrancar);
     for (const raiz of [escena, escenaMontanas]) {
       raiz.traverse((objeto) => {
