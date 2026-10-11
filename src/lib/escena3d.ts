@@ -10,6 +10,7 @@ import {
   MathUtils,
   Mesh,
   MeshBasicMaterial,
+  PlaneGeometry,
   OrthographicCamera,
   PerspectiveCamera,
   Points,
@@ -24,6 +25,7 @@ import {
   WebGLRenderer,
   type IUniform,
 } from 'three';
+import { fraccionCicloLunar } from './api/cielo';
 
 /**
  * Escena de la portada: un único cielo continuo que pasa del atardecer a la
@@ -147,6 +149,34 @@ void main(){
   a *= (0.25 + 0.75 * r) * (1.0 - 0.9 * (1.0 - smoothstep(0.0, 0.035, abs(t - 0.47))));
   vec3 col = mix(vec3(0.70, 0.56, 0.40), vec3(0.93, 0.82, 0.64), r);
   gl_FragColor = vec4(col, a * 0.85);
+}
+`;
+
+const FRAGMENT_LUNA = /* glsl */ `
+varying vec3 vN; varying vec3 vP; varying vec3 vW;
+uniform vec3 uLuz; uniform float uVisible;
+${GLSL_RUIDO}
+void main(){
+  vec3 n = normalize(vN);
+  float maria = smoothstep(0.40, 0.72, fbm(vP * 1.6 + 3.0));
+  float rugosidad = fbm(vP * 9.0);
+  float albedo = mix(0.80, 0.58, maria) * (0.88 + 0.24 * rugosidad);
+  float l = clamp(dot(n, normalize(uLuz)), 0.0, 1.0);
+  vec3 col = albedo * (vec3(0.93, 0.91, 0.84) * smoothstep(0.0, 0.35, l) + vec3(0.30, 0.38, 0.55) * 0.09);
+  gl_FragColor = vec4(col, uVisible);
+}
+`;
+
+const VERTEX_HALO = /* glsl */ `
+varying vec2 vUv;
+void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }
+`;
+const FRAGMENT_HALO = /* glsl */ `
+varying vec2 vUv; uniform float uVisible; uniform float uIluminacion;
+void main(){
+  float d = length(vUv - 0.5) * 2.0;
+  float a = pow(max(1.0 - d, 0.0), 3.0) * 0.4 * uVisible * (0.15 + 0.85 * uIluminacion);
+  gl_FragColor = vec4(vec3(0.75, 0.82, 1.0), a);
 }
 `;
 
@@ -360,6 +390,39 @@ interface EstrellaFugaz {
   uniforms: Record<string, IUniform>;
 }
 
+function crearLuna(fraccion: number) {
+  const grupo = new Group();
+  const matLuna = new ShaderMaterial({
+    vertexShader: VERTEX_PLANETA,
+    fragmentShader: FRAGMENT_LUNA,
+    defines: { OCTAVAS: 4 },
+    transparent: true,
+    depthWrite: false,
+    uniforms: { uLuz: { value: new Vector3(0, 0, 1) }, uVisible: { value: 0 } },
+  });
+  const luna = new Mesh(new SphereGeometry(4.5, 48, 32), matLuna);
+  const iluminacion = (1 - Math.cos(2 * Math.PI * fraccion)) / 2;
+  const matHalo = new ShaderMaterial({
+    vertexShader: VERTEX_HALO,
+    fragmentShader: FRAGMENT_HALO,
+    transparent: true,
+    depthWrite: false,
+    blending: AdditiveBlending,
+    uniforms: { uVisible: { value: 0 }, uIluminacion: { value: iluminacion } },
+  });
+  const halo = new Mesh(new PlaneGeometry(26, 26), matHalo);
+  grupo.add(halo, luna);
+  const azimut = MathUtils.degToRad(-28);
+  const elevacion = MathUtils.degToRad(39);
+  const radio = 70;
+  grupo.position.set(
+    radio * Math.sin(azimut) * Math.cos(elevacion),
+    radio * Math.sin(elevacion),
+    -radio * Math.cos(azimut) * Math.cos(elevacion),
+  );
+  return { grupo, luna, halo, matLuna, matHalo, angulo: 2 * Math.PI * fraccion };
+}
+
 function crearEstrellaFugaz(): EstrellaFugaz {
   const geometria = new BufferGeometry();
   geometria.setAttribute('position', new Float32BufferAttribute(new Float32Array(6), 3));
@@ -482,8 +545,16 @@ export function crearEscena(contenedor: HTMLElement): () => void {
   const estrellas = crearEstrellas(movil ? 650 : 1500);
   const constelacion = crearConstelacion();
   const planeta = crearPlaneta();
+  const luna = crearLuna(fraccionCicloLunar(new Date()));
   const fugaces = Array.from({ length: 3 }, crearEstrellaFugaz);
-  escena.add(cielo, estrellas, constelacion.grupo, planeta.grupo, ...fugaces.map((f) => f.linea));
+  escena.add(
+    cielo,
+    estrellas,
+    constelacion.grupo,
+    planeta.grupo,
+    luna.grupo,
+    ...fugaces.map((f) => f.linea),
+  );
 
   // --- Capa 2D: montañas y telescopio ---
   const escenaMontanas = new Scene();
@@ -624,6 +695,14 @@ export function crearEscena(contenedor: HTMLElement): () => void {
       alfa.setX(i * 2 + 1, a);
     }
     alfa.needsUpdate = true;
+
+    const visibleLuna = suavizar(0.15, 0.55, noche);
+    luna.matLuna.uniforms.uVisible.value = visibleLuna;
+    luna.matHalo.uniforms.uVisible.value = visibleLuna;
+    luna.halo.quaternion.copy(camara.quaternion);
+    (luna.matLuna.uniforms.uLuz.value as Vector3)
+      .set(Math.sin(luna.angulo), 0, -Math.cos(luna.angulo))
+      .transformDirection(camara.matrixWorld);
 
     planeta.planeta.rotation.y = t * 0.05;
     planeta.matPlaneta.uniforms.uTiempo.value = t;

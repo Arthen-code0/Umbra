@@ -12,11 +12,16 @@ import {
 const CICLO_SINODICO_DIAS = 29.53058867;
 const EPOCA_LUNA_NUEVA_MS = Date.UTC(2000, 0, 6, 18, 14);
 
-function calcularFaseLunar(fecha: Date): FaseLunar {
+/** Posición en el ciclo lunar: 0 = luna nueva, 0,5 = luna llena, 1 = vuelta a luna nueva. */
+export function fraccionCicloLunar(fecha: Date): number {
   const diasDesdeEpoca = (fecha.getTime() - EPOCA_LUNA_NUEVA_MS) / 86_400_000;
   const posicion =
     ((diasDesdeEpoca % CICLO_SINODICO_DIAS) + CICLO_SINODICO_DIAS) % CICLO_SINODICO_DIAS;
-  const fraccion = posicion / CICLO_SINODICO_DIAS;
+  return posicion / CICLO_SINODICO_DIAS;
+}
+
+function calcularFaseLunar(fecha: Date): FaseLunar {
+  const fraccion = fraccionCicloLunar(fecha);
   const porcentajeIluminacion = Math.round(((1 - Math.cos(2 * Math.PI * fraccion)) / 2) * 100);
 
   let nombre: string;
