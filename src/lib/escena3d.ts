@@ -32,7 +32,7 @@ import { fraccionCicloLunar } from './api/cielo';
  * noche cerrada según el scroll. Capas:
  *  1. Cielo (shader): degradado, sol, estrellas procedurales y Vía Láctea.
  *  2. Estrellas brillantes con parpadeo, constelación que se dibuja,
- *     planeta con anillos y estrellas fugaces.
+ *     planeta con anillos, luna, aurora (en el shader del cielo) y estrellas fugaces.
  *  3. Montañas y telescopio en 2D con paralaje (cámara ortográfica).
  * Se pausa fuera de pantalla y reduce el coste en móvil.
  */
@@ -85,6 +85,22 @@ void main(){
   float mw = banda * (0.35 + 0.9 * nube);
   #endif
   col += mix(vec3(0.35, 0.40, 0.70), vec3(0.90, 0.70, 0.50), nube) * mw * 1.0 * smoothstep(0.45, 0.95, uNoche) * smoothstep(-0.02, 0.3, d.y);
+
+  // Aurora: cortinas verdes que ondulan hacia el norte y se vuelven violeta arriba.
+  float visAurora = smoothstep(0.82, 1.0, uNoche) * smoothstep(0.02, 0.2, d.y);
+  if (visAurora > 0.001) {
+    float az = atan(d.x, -d.z);
+    float onda = ruido(vec3(az * 2.2, uTiempo * 0.12, 1.7)) * 0.22 + ruido(vec3(az * 5.0, uTiempo * 0.2, 9.0)) * 0.06;
+    float h = d.y - 0.1 - onda;
+    float base = smoothstep(0.0, 0.05, h);
+    float altura = exp(-h * 4.2);
+    float rayos = ruido(vec3(az * 38.0, uTiempo * 0.35, 3.0)) * 0.6 + ruido(vec3(az * 90.0, uTiempo * 0.6, 5.0)) * 0.4;
+    float cortina = smoothstep(0.15, 0.6, ruido(vec3(az * 1.3, uTiempo * 0.05, 7.0)));
+    float aur = base * altura * (0.35 + 0.9 * rayos) * cortina * smoothstep(1.1, 0.4, abs(az));
+    vec3 verde = vec3(0.12, 0.95, 0.5);
+    vec3 violeta = vec3(0.55, 0.25, 0.95);
+    col += mix(verde, violeta, smoothstep(0.0, 0.45, h)) * aur * 1.0 * visAurora;
+  }
 
   gl_FragColor = vec4(col, 1.0);
 }
