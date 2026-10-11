@@ -1440,6 +1440,21 @@ button {
 .escena--3d .narrativa--animada .narrativa__fondos {
   display: none;
 }
+/* Sin pin (móvil): las fases apiladas dejan ver el cielo fijo, que oscurece al avanzar. */
+.escena {
+  overflow: clip;
+}
+.escena--3d .narrativa:not(.narrativa--animada) .narrativa__fase {
+  background: transparent;
+}
+.escena--3d .narrativa:not(.narrativa--animada) .narrativa__texto {
+  width: calc(100% - 2.5rem);
+  margin-inline: auto;
+  padding: 1.25rem 1.25rem;
+  border-radius: var(--radio);
+  background: rgb(5 7 13 / 0.74);
+  backdrop-filter: blur(6px);
+}
 .escena--3d .narrativa--animada .narrativa__texto {
   width: min(40rem, 100% - 2.5rem);
   margin-left: max(1.25rem, calc((100vw - var(--ancho-contenido)) / 2));

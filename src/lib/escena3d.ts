@@ -681,15 +681,6 @@ export function crearEscena(contenedor: HTMLElement): () => void {
     ultimo = ahora;
     const t = ahora / 1000;
 
-    const cubierta =
-      narrativaDom &&
-      !narrativaDom.classList.contains('narrativa--animada') &&
-      narrativaDom.getBoundingClientRect().top <= 0;
-    if (cubierta) {
-      idAnimacion = requestAnimationFrame(fotograma);
-      return;
-    }
-
     raton.x = MathUtils.lerp(raton.x, objetivo.x, 0.05);
     raton.y = MathUtils.lerp(raton.y, objetivo.y, 0.05);
     const q = progresoNarrativa();
